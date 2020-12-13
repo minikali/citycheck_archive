@@ -1,56 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import { LayoutContext } from '@/context/LayoutContext';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 import LangDropdown from '../LangDropdown';
+import NavMenu from '../NavMenu';
 import './style.scss';
 
 const Header = () => {
-  const [LogoUrl, setLogoUrl] = useState(null);
-  const [BannerUrl, setBannerUrl] = useState(null);
+  const { LogoUrl, BannerUrl } = useContext(LayoutContext);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/layouts`
-        );
-        if (response.status !== 200)
-          throw Error(`Error code ${response.status}`);
-        const json = await response.json();
-        setBannerUrl(
-          process.env.NEXT_PUBLIC_API_URL +
-            json.filter(({ label }) => label === 'banner').shift().media.url
-        );
-        setLogoUrl(
-          process.env.NEXT_PUBLIC_API_URL +
-            json.filter(({ label }) => label === 'logo').shift().media.url
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, []);
-
   return (
-    <Container as='header' className='header' fluid>
+    <Container as='header' className='header'>
       <Row>
-        <Col className='header__logo' xs={{ span: 2, order: 1 }}>
-          <img src={LogoUrl} alt='Logo Citycheck' />
+        <Col
+          className='header__logo'
+          xs={{ span: 3, order: 1 }}
+          md={{ span: 3, order: 1 }}
+          lg={{ span: 2, order: 1 }}
+        >
+          <Link href='/'>
+            <a>
+              <img src={LogoUrl} alt='Logo Citycheck' />
+            </a>
+          </Link>
         </Col>
-        <Col className='header__title' xs={{ span: 12, order: 4 }}>
+        <Col
+          className='header__title'
+          xs={{ span: 12, order: 4 }}
+          md={{ span: 6, order: 2 }}
+          lg={{ span: 8, order: 2 }}
+        >
           <h1>{t('header_title')}</h1>
         </Col>
-        <Col className='header__lang-select' xs={{ span: 8, order: 2 }}>
+        <Col
+          className='header__lang-select'
+          xs={{ span: 6, order: 2 }}
+          md={{ span: 3, order: 3 }}
+          lg={{ span: 2, order: 3 }}
+        >
           <LangDropdown />
         </Col>
-        <Col className='header__banner' xs={{ span: 12, order: 5 }}>
-          banner
-          {/* <img src={BannerUrl} alt='Banner Citycheck' /> */}
+        <Col
+          className='header__banner'
+          xs={{ span: 12, order: 5 }}
+          md={{ span: 12, order: 4 }}
+        >
+          <img src={BannerUrl} alt='Banner Citycheck' />
         </Col>
-        <Col xs={{ span: 2, order: 3 }}>menu</Col>
+        <Col
+          className='header__nav'
+          xs={{ span: 3, order: 3 }}
+          md={{ span: 12, order: 5 }}
+        >
+          <NavMenu />
+        </Col>
       </Row>
     </Container>
   );

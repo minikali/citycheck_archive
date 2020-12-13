@@ -1,14 +1,15 @@
 .lang-dropdown {
   .dropdown-item,
-  .dropdown-toggle {
+  .dropdown-toggle,
+  .dropdown-toggle:not(:disabled):not(.disabled):active {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
     background-color: #fff;
+    border: 1px solid #cc9966;
   }
   .dropdown-toggle {
-    border: 1px solid #cc9966;
     &:hover {
       box-shadow: 0px 0px 6px 0px #a8a8a8;
     }

@@ -1,9 +1,11 @@
 import React from 'react';
+import LayoutContextProvider from '@/context/LayoutContext';
 import { useTranslation } from 'react-i18next';
 import Head from 'next/head';
 import Container from 'react-bootstrap/Container';
 import Header from '../Header';
 import './style.scss';
+import Footer from '../Footer';
 
 interface Props {
   children: React.ReactNode;
@@ -40,8 +42,11 @@ const Layout = ({ children }: Props) => {
             />
           </Head>
           <Container className='layout' fluid>
-            <Header />
-            {children}
+            <LayoutContextProvider>
+              <Header />
+              {children}
+              <Footer />
+            </LayoutContextProvider>
           </Container>
         </>
       )}
