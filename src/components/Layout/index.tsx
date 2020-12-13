@@ -1,11 +1,15 @@
+// Modules
 import React from 'react';
 import LayoutContextProvider from '@/context/LayoutContext';
 import { useTranslation } from 'react-i18next';
-import Head from 'next/head';
+// Components
 import Container from 'react-bootstrap/Container';
+import Spinner from 'react-bootstrap/Spinner';
+import Head from 'next/head';
 import Header from '../Header';
-import './style.scss';
 import Footer from '../Footer';
+// Others
+import './style.scss';
 
 interface Props {
   children: React.ReactNode;
@@ -17,7 +21,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       {/* TODO : SPINNER */}
-      {!ready && <p>Loading...</p>}
+      {!ready && <Spinner animation='border' role='status' />}
       {ready && (
         <>
           <Head>

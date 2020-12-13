@@ -6,20 +6,30 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export"
+    "export": "next build && next export",
+    "sitemap": "babel-node src/sitemap/start.js"
   },
   "dependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.10",
+    "@babel/register": "^7.12.10",
     "@zeit/next-sass": "^1.0.1",
     "bootstrap": "^4.5.3",
     "i18next": "^19.8.4",
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.0.21",
+    "markdown-to-jsx": "^7.1.0",
     "next": "10.0.3",
+    "node-fetch": "^2.6.1",
     "node-sass": "^5.0.0",
     "react": "17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "17.0.1",
-    "react-i18next": "^11.8.3"
+    "react-i18next": "^11.8.3",
+    "react-router-sitemap": "^1.2.0",
+    "slugify": "^1.4.6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.13",

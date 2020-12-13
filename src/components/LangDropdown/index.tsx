@@ -1,9 +1,15 @@
+// Modules
 import React from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
+import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
-import "./style.scss"
 
-const LangSelect = () => {
+// Components
+import Dropdown from 'react-bootstrap/Dropdown';
+
+// Others
+import './style.scss';
+
+const LangDropdown = () => {
   const { i18n } = useTranslation();
   const options = [
     {
@@ -33,7 +39,9 @@ const LangSelect = () => {
           {options
             .filter(({ key }) => key !== i18n.language)
             .map(({ key, label }) => (
-              <Dropdown.Item eventKey={key}>{label}</Dropdown.Item>
+              <Dropdown.Item key={uuidv4()} eventKey={key}>
+                {label}
+              </Dropdown.Item>
             ))}
         </Dropdown.Menu>
       </Dropdown>
@@ -41,4 +49,4 @@ const LangSelect = () => {
   );
 };
 
-export default LangSelect;
+export default LangDropdown;
