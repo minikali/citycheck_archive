@@ -3,8 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useTranslation } from 'react-i18next';
+import LangDropdown from '../LangDropdown';
 import './style.scss';
-import LangSelect from '../LangSelect';
 
 const Header = () => {
   const [LogoUrl, setLogoUrl] = useState(null);
@@ -35,20 +35,22 @@ const Header = () => {
   }, []);
 
   return (
-    <Container as='header' className="header" fluid>
+    <Container as='header' className='header' fluid>
       <Row>
-        <Col className="header__logo" xs={2}>
+        <Col className='header__logo' xs={{ span: 2, order: 1 }}>
           <img src={LogoUrl} alt='Logo Citycheck' />
         </Col>
-        <Col className="header__title" xs={8}>
+        <Col className='header__title' xs={{ span: 12, order: 4 }}>
           <h1>{t('header_title')}</h1>
         </Col>
-        <Col className="header__lang-select" xs={2}>
-          <LangSelect />
+        <Col className='header__lang-select' xs={{ span: 8, order: 2 }}>
+          <LangDropdown />
         </Col>
-        <Col className="header__banner" xs={12}>
+        <Col className='header__banner' xs={{ span: 12, order: 5 }}>
+          banner
           {/* <img src={BannerUrl} alt='Banner Citycheck' /> */}
         </Col>
+        <Col xs={{ span: 2, order: 3 }}>menu</Col>
       </Row>
     </Container>
   );
