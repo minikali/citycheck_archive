@@ -13,6 +13,7 @@ import Col from 'react-bootstrap/Col';
 import { LayoutContext } from '@/context/LayoutContext';
 import getFooterPaths from '@/utils/getFooterPath';
 import './style.scss';
+import SocialButtons from '../SocialButtons';
 
 const Footer = () => {
   const [about, setAbout] = useState([]);
@@ -78,10 +79,15 @@ const Footer = () => {
                 </li>
               );
             })}
+            <li>
+              <Link href='/[slug]' as='/sitemap'>
+                {t('sitemap')}
+              </Link>
+            </li>
           </ul>
         </Col>
         <Col className='footer__social' xs={12}>
-          <p>{t('share')}</p>
+          <SocialButtons />
         </Col>
       </Row>
     </Container>

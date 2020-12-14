@@ -1,49 +1,26 @@
 // Modules
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 // Components
 import Layout from '@/components/Layout';
-import Spinner from 'react-bootstrap/Spinner';
-import Markdown from 'markdown-to-jsx';
 import Container from 'react-bootstrap/Container';
+import LayoutGeneral from '@/components/LayoutGeneral';
+import LayoutSitemap from '@/components/LayoutSitemap';
 
 // Others
 import getFooterPaths from '@/utils/getFooterPath';
-import '../styles/infoPage.scss';
 
 interface Props {
   slug: string;
 }
 
-const Page = ({ slug }: Props) => {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      const paths = await getFooterPaths();
-      const { params } = paths.find((element) => element.params.slug === slug);
-
-      if (params) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/${params.route}/${params.id}`
-        );
-        const json = await response.json();
-        setData(json);
-      }
-    })();
-  }, [slug]);
-
-  return (
-    <Layout>
-      {!data && <Spinner animation='border' role='status' />}
-      {data && (
-        <Container className='info-page'>
-          <Markdown>{data.content}</Markdown>
-        </Container>
-      )}
-    </Layout>
-  );
-};
+const Page = ({ slug }: Props) => (
+  <Layout>
+    <Container className='info-page'>
+      {slug === 'sitemap' ? <LayoutSitemap /> : <LayoutGeneral slug={slug} />}
+    </Container>
+  </Layout>
+);
 
 export const getStaticProps = async ({ params }) => ({
   props: {
@@ -54,7 +31,14 @@ export const getStaticProps = async ({ params }) => ({
 export const getStaticPaths = async () => {
   try {
     return {
-      paths: await getFooterPaths(),
+      paths: [
+        ...(await getFooterPaths()),
+        {
+          params: {
+            slug: 'sitemap',
+          },
+        },
+      ],
       fallback: false,
     };
   } catch (error) {

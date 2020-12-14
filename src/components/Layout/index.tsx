@@ -2,12 +2,14 @@
 import React from 'react';
 import LayoutContextProvider from '@/context/LayoutContext';
 import { useTranslation } from 'react-i18next';
+
 // Components
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Head from 'next/head';
 import Header from '../Header';
 import Footer from '../Footer';
+
 // Others
 import './style.scss';
 
