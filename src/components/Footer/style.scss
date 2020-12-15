@@ -1,6 +1,48 @@
 .footer {
-  &__logo img {
-    width: 150px;
-    height: 150px;
+  .row {
+    border-top: 2px solid #818181;
+    border-bottom: 2px solid #818181;
+    margin: 40px 10px;
+    padding: 20px 0px;
+  }
+  .title {
+    display: inline-block;
+    margin: 20px 0 10px 0;
+    padding: 0 0 2px 0;
+    font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 2px solid #c96;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 16px;
+  }
+  &__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  &__social ul {
+    display: flex;
+    margin: 0 -5px;
+    li {
+      margin: 0 5px;
+    }
+  }
+  &__copyright {
+    margin: 20px 0 0 0;
+    p {
+      margin: 0 auto;
+      text-align: center;
+      font-size: 12px;
+      color: #333;
+    }
   }
 }

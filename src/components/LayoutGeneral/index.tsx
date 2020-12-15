@@ -7,6 +7,8 @@ import Spinner from 'react-bootstrap/Spinner';
 
 // Others
 import getFooterPaths from '@/utils/getFooterPath';
+import './style.scss';
+import Container from 'react-bootstrap/Container';
 
 interface Props {
   slug: string;
@@ -31,10 +33,10 @@ const LayoutGeneral = ({ slug }: Props) => {
   }, [slug]);
 
   return (
-    <>
+    <Container className='layout-general'>
       {!data && <Spinner animation='border' role='status' />}
       {data && <Markdown>{data.content}</Markdown>}
-    </>
+    </Container>
   );
 };
 

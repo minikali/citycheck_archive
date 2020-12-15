@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import Container from 'react-bootstrap/Container';
+import './style.scss';
 
 const LayoutSitemap = () => {
   const [sitemap, setSitemap] = useState([]);
@@ -19,7 +21,7 @@ const LayoutSitemap = () => {
   }, []);
 
   return (
-    <>
+    <Container className='layout-sitemap'>
       <h2>{t('sitemap_title')}</h2>
       <h3>{t('menu_title')}</h3>
       <ul>
@@ -52,7 +54,7 @@ const LayoutSitemap = () => {
           </li>
         ))}
       </ul>
-    </>
+    </Container>
   );
 };
 

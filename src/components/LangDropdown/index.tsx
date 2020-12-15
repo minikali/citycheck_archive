@@ -11,6 +11,7 @@ import './style.scss';
 
 const LangDropdown = () => {
   const { i18n } = useTranslation();
+
   const options = [
     {
       key: 'fr',
@@ -22,15 +23,14 @@ const LangDropdown = () => {
     },
   ];
 
+  const handleClick = (eventKey) => {
+    i18n.changeLanguage(eventKey);
+    localStorage.setItem('i18nextLang', eventKey);
+  };
+
   return (
     <>
-      <Dropdown
-        className='lang-dropdown'
-        onSelect={(eventKey) => {
-          i18n.changeLanguage(eventKey);
-          localStorage.setItem('i18nextLang', eventKey);
-        }}
-      >
+      <Dropdown className='lang-dropdown' onSelect={handleClick}>
         <Dropdown.Toggle>
           {options.find(({ key }) => key === i18n.language).label}
         </Dropdown.Toggle>

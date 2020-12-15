@@ -1,0 +1,25 @@
+.feedback-modal {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #191970;
+  border-radius: 10px;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.3);
+  &.error {
+    background-color: #8b0000;
+  }
+  p {
+    margin: 0;
+    padding: 0 20px;
+  }
+  button img {
+    width: 20px;
+    height: 20px;
+  }
+}

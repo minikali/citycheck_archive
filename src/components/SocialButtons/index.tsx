@@ -45,7 +45,7 @@ const SocialButtons = () => {
 
   return (
     <>
-      <p>{t('share')}</p>
+      <p className="title">{t('share')}</p>
       <ul>
         {facebook?.active && (
           <li>

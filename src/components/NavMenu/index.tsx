@@ -29,7 +29,7 @@ const NavMenu = () => {
             </Link>
           </Nav.Item>
           <Nav.Item>
-            <Link href='/about-us'>
+            <Link href='/contact'>
               <a>{t('nav_contact')}</a>
             </Link>
           </Nav.Item>

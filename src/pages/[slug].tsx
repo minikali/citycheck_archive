@@ -16,7 +16,7 @@ interface Props {
 
 const Page = ({ slug }: Props) => (
   <Layout>
-    <Container className='info-page'>
+    <Container>
       {slug === 'sitemap' ? <LayoutSitemap /> : <LayoutGeneral slug={slug} />}
     </Container>
   </Layout>
