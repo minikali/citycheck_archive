@@ -1,7 +1,8 @@
 // Modules
-import React from 'react';
+import React, { useEffect } from 'react';
 import LayoutContextProvider from '@/context/LayoutContext';
 import { useTranslation } from 'react-i18next';
+import { initGA, logPageView } from '@/utils/analytics';
 
 // Components
 import Container from 'react-bootstrap/Container';
@@ -19,6 +20,14 @@ interface Props {
 
 const Layout = ({ children }: Props) => {
   const { ready } = useTranslation();
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
 
   return (
     <>
@@ -45,6 +54,17 @@ const Layout = ({ children }: Props) => {
               href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css'
               integrity='sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk'
               crossOrigin='anonymous'
+            />
+            <link
+              rel='stylesheet'
+              href='https://unpkg.com/leaflet@1.7.1/dist/leaflet.css'
+              integrity='sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=='
+              crossOrigin=''
+            />
+            <script
+              src='https://unpkg.com/leaflet@1.7.1/dist/leaflet.js'
+              integrity='sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=='
+              crossOrigin=''
             />
           </Head>
           <Container className='layout' fluid>

@@ -1,0 +1,18 @@
+.contact {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.35);
+    margin: 30px auto 60px;
+    padding: 20px;
+    [type='submit'].btn {
+      background-color: #191970;
+      padding: 5px 20px;
+      min-width: 180px;
+      margin: 20px auto 0 auto;
+    }
+  }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
+import './style.scss';
 
 interface Props {
   domId: string;
@@ -23,7 +24,7 @@ const Upload = ({ domId, setFiles, files }: Props) => {
   const Files = (files || []).map((file) => (
     <div className='file-item' key={uuidv4()}>
       <span>{file.name}</span>
-      <Button variant='link' onClick={() => deleteFile(file.name)}>
+      <Button className="cross" variant='link' onClick={() => deleteFile(file.name)}>
         <img src='assets/images/black-x.png' alt='cross' />
       </Button>
     </div>

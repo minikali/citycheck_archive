@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
+import "./style.scss"
 
 export interface ContactForm {
   name: string;
@@ -54,8 +55,8 @@ const Contact = () => {
 
   return (
     <Layout>
-      <Container>
-        <Form onSubmit={handleSubmit}>
+      <Container className="contact">
+        <Form className="contact__form" onSubmit={handleSubmit}>
           <Form.Group controlId='contact-name'>
             <Form.Label>{t('contact_label_name')}</Form.Label>
             <Form.Control type='text' onChange={onChangeName} required />
@@ -76,7 +77,7 @@ const Contact = () => {
             />
           </Form.Group>
           <Upload domId='upload' setFiles={onChangeFiles} files={form.files} />
-          <Button variant='primary' type='submit'>
+          <Button type='submit'>
             {loading && <Spinner animation='border' role='status' />}
             {!loading && 'Confirmer'}
           </Button>
