@@ -1,35 +1,47 @@
-import React from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  Tooltip,
+  useMap,
+  useMapEvents,
+} from 'react-leaflet';
 import { isMobile } from 'react-device-detect';
+import { Icon } from 'leaflet';
+import { useTranslation } from 'react-i18next';
+import config from '@/config';
 import './style.scss';
+import Markers from '../Markers';
 
-// eslint-disable-next-line arrow-body-style
-const Map = () => {
-  const defaultCenter = isMobile
-    ? {
-        lat: 50.3908794,
-        lng: 17.5196905,
-      }
-    : {
-        lat: 53.5347351,
-        lng: 26.1799999,
-      };
-  const defaultZoom = isMobile ? 3 : 4;
+const LeafletMap = () => {
+  const { t, i18n } = useTranslation();
+  const [center, setCenter] = useState(
+    isMobile ? config.defaultCenterMobile : config.defaultCenterDesktop
+  );
+  const [zoom, setZoom] = useState(
+    isMobile ? config.defaultZoomMobile : config.defaultZoomDesktop
+  );
+  const greenIcon = new Icon({ iconUrl: 'assets/images/green-pin.png' });
+
   return (
-    <MapContainer
-      center={defaultCenter}
-      zoom={defaultZoom}
-      scrollWheelZoom={false}
-    >
+    <MapContainer center={center} zoom={zoom} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
-      <Marker position={[51.505, -0.09]}>
-        <Popup>A pretty CSS3 popup.</Popup>
-      </Marker>
+      <Markers setCenter={setCenter} setZoom={setZoom} zoom={zoom} />
+      {/* <Marker position={[51.505, -0.09]} icon={greenIcon}>
+        <Popup>
+          <div className='popup-content'>Hello world</div>
+        </Popup>
+        <Tooltip opacity={1} permanent>
+          <span>Hello guys</span>
+        </Tooltip>
+      </Marker> */}
     </MapContainer>
   );
 };
 
-export default Map;
+export default LeafletMap;

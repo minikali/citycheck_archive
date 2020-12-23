@@ -34,6 +34,7 @@
     "react-router-sitemap": "^1.2.0",
     "react-share": "^4.3.1",
     "slugify": "^1.4.6",
+    "supercluster": "^7.1.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
