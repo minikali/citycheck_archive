@@ -38,6 +38,7 @@ const LayoutContextProvider = ({ children }: Props) => {
       }
     })();
   }, []);
+
   return (
     <LayoutContext.Provider value={{ LogoUrl, BannerUrl }}>
       {children}

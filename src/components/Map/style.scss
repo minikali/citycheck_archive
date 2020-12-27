@@ -6,3 +6,40 @@
     color: #ffffff;
   }
 }
+
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #000;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.marker {
+  background-size: 100% 100%;
+  &__phase-1 {
+    background-image: url('/assets/images/green-pin.png');
+  }
+  &__phase-2 {
+    background-image: url('/assets/images/orange-pin.png');
+  }
+  &__phase-3 {
+    background-image: url('/assets/images/red-pin.png');
+  }
+  &:hover {
+    top: -2px;
+  }
+}
+
+.leaflet-popup-content {
+  width: 100px;
+  height: 50px;
+}

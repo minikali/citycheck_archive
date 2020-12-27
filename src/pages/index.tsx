@@ -1,14 +1,13 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
+import SuperclusterContextProvider from '@/context/SuperclusterContext';
 import Layout from '../components/Layout';
-
 import '../styles/style.scss';
 
 const Home = () => {
-  const Map = React.useMemo(
+  const MapWithoutSSR = React.useMemo(
     () =>
       dynamic(() => import('@components/Map'), {
-        loading: () => <p>A map is loading</p>,
         ssr: false, // This line is important. It's what prevents server-side render
       }),
     [
@@ -17,7 +16,9 @@ const Home = () => {
   );
   return (
     <Layout>
-      <Map />
+      <SuperclusterContextProvider>
+        <MapWithoutSSR />
+      </SuperclusterContextProvider>
     </Layout>
   );
 };
