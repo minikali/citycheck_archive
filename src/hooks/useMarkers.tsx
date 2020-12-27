@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMap, useMapEvents } from 'react-leaflet';
 import { SuperclusterContext } from '@/context/SuperclusterContext';
+import { GeojsonFeature, Project } from '@/types';
 
 const useMarkers = () => {
   const { i18n } = useTranslation();
@@ -19,7 +20,7 @@ const useMarkers = () => {
       if (!response.ok) throw Error(response.statusText);
       const json = await response.json();
       // Transform data into GeoJSON Feature for supercluster
-      const geojson = json.map((element) => ({
+      const geojson: GeojsonFeature[] = json.map((element: Project) => ({
         type: 'Feature',
         properties: {
           ...element,
@@ -33,6 +34,7 @@ const useMarkers = () => {
       }));
       supercluster.load(geojson);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };

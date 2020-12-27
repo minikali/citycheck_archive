@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Marker, Popup } from 'react-leaflet';
 import useMarkers from '@/hooks/useMarkers';
 import './style.scss';
+import CardPopup from '@/components/CardPopup';
 
 const Markers = () => {
   const { points, zoomOnCluster } = useMarkers();
@@ -46,7 +47,7 @@ const Markers = () => {
               })
             }
           >
-            <Popup>Hello world</Popup>
+            <CardPopup properties={properties} />
           </Marker>
         );
       })}
