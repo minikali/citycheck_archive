@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 
 export const AuthContext = createContext<any>({});
@@ -24,6 +24,9 @@ const AuthContextProvider = ({ children }: Props) => {
     },
   ] = useAuth();
 
+  const [dropdown, setDropdown] = useState('login');
+  const [toggle, setToggle] = useState(false);
+
   return (
     <AuthContext.Provider
       value={{
@@ -37,6 +40,10 @@ const AuthContextProvider = ({ children }: Props) => {
         facebookLogout,
         googleLogin,
         googleLogout,
+        toggle,
+        setToggle,
+        dropdown,
+        setDropdown,
       }}
     >
       {children}

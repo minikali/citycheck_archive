@@ -2,17 +2,17 @@ import { AuthContext } from '@/context/AuthContext';
 import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
-import "./style.scss";
+import './style.scss';
 
-interface Props {
-  setDropdown: (s: string) => void;
-  setToggle: (b: boolean) => void;
-}
-
-const Logout = ({ setDropdown, setToggle }: Props) => {
-  const { userinfo, facebookLogout, googleLogout, logout } = useContext(
-    AuthContext
-  );
+const Logout = () => {
+  const {
+    userinfo,
+    facebookLogout,
+    googleLogout,
+    logout,
+    setDropdown,
+    setToggle,
+  } = useContext(AuthContext);
   const { t } = useTranslation();
 
   const handleLogout = () => {
@@ -22,7 +22,11 @@ const Logout = ({ setDropdown, setToggle }: Props) => {
     setDropdown('login');
     setToggle(false);
   };
-  return <Button className="btn-logout" onClick={() => handleLogout()}>{t('logout_btn')}</Button>;
+  return (
+    <Button className='btn-logout' onClick={() => handleLogout()}>
+      {t('logout_btn')}
+    </Button>
+  );
 };
 
 export default Logout;

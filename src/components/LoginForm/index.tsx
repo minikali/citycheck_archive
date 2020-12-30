@@ -6,16 +6,16 @@ import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import './style.scss';
 
-interface Props {
-  setDropdown: (s: string) => void;
-  setToggle: (b: boolean) => void;
-}
-
-const LoginForm = ({ setDropdown, setToggle }: Props) => {
+const LoginForm = () => {
   const { t } = useTranslation();
-  const { userStatus, login, facebookLogin, googleLogin } = useContext(
-    AuthContext
-  );
+  const {
+    userStatus,
+    login,
+    facebookLogin,
+    googleLogin,
+    setToggle,
+    setDropdown,
+  } = useContext(AuthContext);
 
   const initialState = {
     username: '',

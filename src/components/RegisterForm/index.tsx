@@ -13,14 +13,11 @@ import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import './style.scss';
 
-interface Props {
-  setDropdown: (s: string) => void;
-  setToggle: (b: boolean) => void;
-}
-
-const RegisterForm = ({ setDropdown, setToggle }: Props) => {
+const RegisterForm = () => {
   const { t } = useTranslation();
-  const { userStatus, register } = useContext(AuthContext);
+  const { userStatus, register, setDropdown, setToggle } = useContext(
+    AuthContext
+  );
   // --- setter and getter form ---
   const initialState = {
     username: '',

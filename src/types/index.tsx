@@ -6,6 +6,7 @@ export interface Project {
   created_at: string;
   description: string;
   english_project: any;
+  french_project: any;
   id: number;
   lat: number;
   lng: number;

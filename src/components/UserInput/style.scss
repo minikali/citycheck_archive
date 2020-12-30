@@ -1,0 +1,23 @@
+.input > .label,
+.text-area > .label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.label > input,
+.label > textarea {
+  border: 1px solid #c1c1c1;
+  border-radius: 4px;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+.label > input:focus,
+.label > textarea:focus {
+  border: none;
+  outline-color: transparent;
+  -webkit-box-shadow: 0px 0px 5px 0px #cc9966;
+  -moz-box-shadow: 0px 0px 5px 0px #cc9966;
+  box-shadow: 0px 0px 5px 0px #cc9966;
+}

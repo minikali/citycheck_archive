@@ -1,4 +1,113 @@
-.leaflet-popup-content-wrapper {
-  width: 250px;
-  height: 300px;
+.leaflet-popup {
+  .leaflet-popup-content-wrapper {
+    width: 250px;
+    // height: 300px;
+    box-shadow: none;
+    background: transparent;
+    .leaflet-popup-content {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  a.leaflet-popup-close-button {
+    color: #ffffff;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 5px;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+
+.card-popup {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  .card-header {
+    padding: 0;
+    border: none;
+    h2 {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background-color: #32cd32;
+      color: #fff;
+      font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      margin: 0;
+      text-transform: uppercase;
+      word-break: break-word;
+      text-align: center;
+      padding: 0 20px;
+    }
+  }
+  .card-body {
+    padding: 0;
+    .card-title {
+      font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      color: #000;
+      font-weight: 700;
+      text-align: center;
+      padding: 0 15px;
+      margin: 10px 0;
+    }
+    .card-text {
+      .description {
+        width: 100%;
+        margin: 0;
+        font-size: 14px;
+        font-family: 'Roboto', Arial, Helvetica, sans-serif;
+        height: 90px;
+        overflow: scroll;
+        overflow-x: hidden;
+        padding: 0 15px;
+        word-break: break-word;
+        &::-webkit-scrollbar {
+          width: 10px;
+        }
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 10px;
+        }
+      }
+      .date {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 12px;
+        padding: 0 15px;
+      }
+    }
+    .card-footer {
+      border: none;
+      background: none;
+      padding: 0;
+      .unauthenticated {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        p {
+          font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          text-align: center;
+        }
+      }
+    }
+  }
 }

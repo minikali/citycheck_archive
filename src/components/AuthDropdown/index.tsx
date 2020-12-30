@@ -11,15 +11,20 @@ import Logout from '../Logout';
 
 // eslint-disable-next-line arrow-body-style
 const AuthDropdown = () => {
-  const { userStatus, userinfo } = useContext(AuthContext);
+  const {
+    userStatus,
+    userinfo,
+    toggle,
+    setToggle,
+    dropdown,
+    setDropdown,
+  } = useContext(AuthContext);
   const { t } = useTranslation();
-  const [dropdown, setDropdown] = useState('login');
-  const [toggle, setToggle] = useState(false);
   const options = {
-    login: <LoginForm setDropdown={setDropdown} setToggle={setToggle} />,
-    register: <RegisterForm setDropdown={setDropdown} setToggle={setToggle} />,
-    recover: <ForgotPasswordForm setDropdown={setDropdown} />,
-    logout: <Logout setDropdown={setDropdown} setToggle={setToggle} />,
+    login: <LoginForm />,
+    register: <RegisterForm />,
+    recover: <ForgotPasswordForm />,
+    logout: <Logout />,
   };
   useEffect(() => {
     if (userStatus === AUTHENTICATED) setDropdown('logout');

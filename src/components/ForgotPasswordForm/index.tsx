@@ -7,13 +7,9 @@ import { EMAIL_SENT, FETCHING } from '@/actionType/actionTypes';
 import { AuthContext } from '@/context/AuthContext';
 import Spinner from 'react-bootstrap/Spinner';
 
-interface Props {
-  setDropdown: (s: string) => void;
-}
-
-const ForgotPasswordForm = ({ setDropdown }: Props) => {
+const ForgotPasswordForm = () => {
   const { t } = useTranslation();
-  const { userStatus, resetPassword } = useContext(AuthContext);
+  const { userStatus, resetPassword, setDropdown } = useContext(AuthContext);
   const [email, setEmail] = useState('');
 
   const handleSubmit = async (e) => {
