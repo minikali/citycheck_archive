@@ -44,6 +44,11 @@
     align-items: center;
     justify-content: flex-end;
   }
+  &__auth {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
 }
 
 /* Small devices (landscape phones, 576px and up) */
@@ -74,7 +79,12 @@
       margin: 15px 0 0 0;
     }
     &__nav {
-      margin: 15px 0;
+      height: 60px;
+      margin-bottom: -15px;
+    }
+    &__auth {
+      height: 60px;
+      margin-bottom: -15px;
     }
   }
 }

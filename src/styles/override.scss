@@ -1,0 +1,22 @@
+$primary: #191970;
+$secondary: #cc9966;
+$green: #32cd32;
+$orange: #ff8c00;
+$red: #8b0000;
+
+/* make the customizations */
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'green': $green,
+  'orange': $orange,
+  'red': $red,
+);
+
+$button-colors: (
+  'green': $green,
+  'orange': $orange,
+  'red': $red,
+);
+
+@import 'node_modules/bootstrap/scss/bootstrap.scss';

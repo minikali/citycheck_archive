@@ -1,0 +1,21 @@
+.auth-dropdown {
+  .dropdown-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .username {
+      padding: 0 10px;
+    }
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+    &::after {
+      display: none;
+    }
+  }
+  .dropdown-menu {
+    padding: 20px;
+    min-width: 320px;
+  }
+}
