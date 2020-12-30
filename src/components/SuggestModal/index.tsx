@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { useTranslation } from 'react-i18next';
 import SelectPhase from '@/components/SelectPhase';
 import Form from 'react-bootstrap/Form';
 import TextArea from '@/components/UserInput/TextArea';
 import './style.scss';
+import { AuthContext } from '@/context/AuthContext';
+import FeedbackModal from '@/components/FeedbackModal';
 
 interface Props {
   show: boolean;
   onHide: () => void;
+  idFr: number;
+  idEn: number;
 }
 
 // eslint-disable-next-line arrow-body-style
-const SuggestModal = ({ show, onHide }: Props) => {
-  const [justify, setJustify] = useState();
+const SuggestModal = ({ show, onHide, idFr, idEn }: Props) => {
+  const [justify, setJustify] = useState('');
   const [phase, setPhase] = useState(1);
   const { t } = useTranslation();
-
+  const { userinfo } = useContext(AuthContext);
+  const [modal, setModal] = useState({
+    show: false,
+    message: '',
+  });
   const handleHide = () => {
     onHide();
   };
@@ -65,35 +73,40 @@ const SuggestModal = ({ show, onHide }: Props) => {
     });
     if (res) {
       setModal({
-        ...modal,
         show: true,
         message: t('suggest_modif_thanks'),
       });
     } else {
       setModal({
-        ...modal,
         show: true,
         message: t('suggest_modif_error'),
-        settings: { ...modal.settings, error: true },
       });
     }
     handleHide();
   };
 
   return (
-    <Modal show={show} onHide={handleHide}>
-      <h1>{t('suggest_modif_title')}</h1>
-      <Form onSubmit={handleSubmit}>
-        <SelectPhase label={t('change_phase_needed')} setPhase={setPhase} />
-        <TextArea
-          domId='justify-suggestion'
-          label={t('suggest_modif_justify_briefly')}
-          value={justify}
-          setValue={setJustify}
-          required
-        />
-      </Form>
-    </Modal>
+    <>
+      <Modal show={show} onHide={handleHide}>
+        <h1>{t('suggest_modif_title')}</h1>
+        <Form onSubmit={handleSubmit}>
+          <SelectPhase label={t('change_phase_needed')} setPhase={setPhase} />
+          <TextArea
+            domId='justify-suggestion'
+            label={t('suggest_modif_justify_briefly')}
+            value={justify}
+            setValue={setJustify}
+            required
+          />
+        </Form>
+      </Modal>
+      <FeedbackModal
+        show={modal.show}
+        onHide={() => setModal({ show: false, message: '' })}
+      >
+        {modal.message}
+      </FeedbackModal>
+    </>
   );
 };
 

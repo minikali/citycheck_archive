@@ -34,19 +34,10 @@ const CardPopup = ({ properties }: Props) => {
     message: '',
   });
   const update = new Date(updated_at).toLocaleDateString();
-
-  const getProjectIds = () => {
-    let idFr = null;
-    let idEn = null;
-    if (i18n.language === 'fr') {
-      idFr = id;
-      idEn = english_project.id;
-    } else {
-      idEn = id;
-      idFr = french_project.id;
-    }
-    return { idFr, idEn };
-  };
+  const { idFr, idEn } = (() =>
+    i18n.language === 'fr'
+      ? { idFr: id, idEn: english_project.id }
+      : { idEn: id, idFr: french_project.id })();
 
   const isConfirmed = () => {
     if (!userinfo) return false;
@@ -58,7 +49,6 @@ const CardPopup = ({ properties }: Props) => {
   };
 
   const handleConfirm = async () => {
-    const { idFr, idEn } = getProjectIds();
     const res = await confirmCard(
       idFr,
       idEn,
@@ -79,7 +69,6 @@ const CardPopup = ({ properties }: Props) => {
   };
 
   const handleSuggestModif = async () => {
-    const { idFr, idEn } = getProjectIds();
     const isSuggest = await isSuggested(idFr, idEn, userinfo.user.id);
     if (!isSuggest) openSuggestModif(idFr, idEn);
     else {
@@ -165,6 +154,7 @@ const CardPopup = ({ properties }: Props) => {
       >
         {modal.message}
       </FeedbackModal>
+      <SuggestModal idFr={idFr} idEn={idEn} />
     </Popup>
   );
 };
