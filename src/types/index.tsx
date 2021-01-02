@@ -10,9 +10,11 @@ export interface Project {
   id: number;
   lat: number;
   lng: number;
+  justify: string;
+  userinfo: any;
   phase: 1 | 2 | 3;
   project_confirmations: any[];
-  project_history: any[];
+  project_histories: any[];
   project_suggestion: any[];
   title: string;
   updated_at: string;

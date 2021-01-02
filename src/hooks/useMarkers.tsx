@@ -50,6 +50,7 @@ const useMarkers = () => {
   };
 
   const updateCluster = () => {
+    if (!supercluster.points) return;
     const newPoints = supercluster.getClusters(
       [
         map.getBounds().getWest(),

@@ -9,6 +9,8 @@ import { AUTHENTICATED } from '@/actionType/actionTypes';
 import { AuthContext } from '@/context/AuthContext';
 import useCard from '@/hooks/useCard';
 import FeedbackModal from '@/components/FeedbackModal';
+import SuggestModal from '@/components/SuggestModal';
+import HistoryModal from '@/components/HistoryModal';
 import './style.scss';
 
 interface Props {
@@ -26,6 +28,7 @@ const CardPopup = ({ properties }: Props) => {
     english_project,
     french_project,
   } = properties;
+
   const { userStatus, userinfo, setToggle } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { confirmCard, isSuggested } = useCard();
@@ -33,6 +36,8 @@ const CardPopup = ({ properties }: Props) => {
     show: false,
     message: '',
   });
+  const [showSuggest, setShowSuggest] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const update = new Date(updated_at).toLocaleDateString();
   const { idFr, idEn } = (() =>
     i18n.language === 'fr'
@@ -47,6 +52,7 @@ const CardPopup = ({ properties }: Props) => {
       ).length > 0
     );
   };
+  const [confirmed, setConfirmed] = useState(isConfirmed());
 
   const handleConfirm = async () => {
     const res = await confirmCard(
@@ -56,6 +62,7 @@ const CardPopup = ({ properties }: Props) => {
       userinfo.user.name
     );
     if (res) {
+      setConfirmed(true);
       setModal({
         show: true,
         message: t('confirm_thanks'),
@@ -70,13 +77,11 @@ const CardPopup = ({ properties }: Props) => {
 
   const handleSuggestModif = async () => {
     const isSuggest = await isSuggested(idFr, idEn, userinfo.user.id);
-    if (!isSuggest) openSuggestModif(idFr, idEn);
+    if (!isSuggest) setShowSuggest(true);
     else {
       setModal({
-        ...modal,
         show: true,
         message: t('suggest_modif_already'),
-        settings: { ...modal.settings, error: true, ms: 5000 },
       });
     }
   };
@@ -85,14 +90,15 @@ const CardPopup = ({ properties }: Props) => {
     <Popup>
       <Card className='card-popup'>
         <Card.Header>
-          <h2>{t(`phase_${phase}`)}</h2>
+          <h2 className={`phase phase_${phase}`}>{t(`phase_${phase}`)}</h2>
         </Card.Header>
         <Card.Body>
           <Card.Title>{title}</Card.Title>
-          <Card.Text>
+          <div className='content'>
             <p className='description'>{description}</p>
             <p className='date'>{`${t('updated_on')} ${update}`}</p>
-          </Card.Text>
+          </div>
+
           <Card.Footer>
             {userStatus !== AUTHENTICATED && (
               <div className='unauthenticated'>
@@ -116,35 +122,30 @@ const CardPopup = ({ properties }: Props) => {
                 userStatus !== AUTHENTICATED && 'disable'
               }`}
             >
-              {!isConfirmed() && (
-                <div className='confirm-btn'>
-                  <Button
-                    onClick={() => handleConfirm()}
-                    disabled={userStatus !== AUTHENTICATED}
-                  >
-                    {t('confirm_btn_lowercase')}
-                  </Button>
-                </div>
-              )}
-              <div className='suggest-btn'>
+              {!confirmed && (
                 <Button
-                  type='button'
-                  onClick={() => handleSuggestModif()}
+                  onClick={() => handleConfirm()}
                   disabled={userStatus !== AUTHENTICATED}
                 >
-                  {t('card_suggest_modif')}
+                  {t('confirm_btn_lowercase')}
                 </Button>
-              </div>
-            </div>
-            <div className='card-history'>
+              )}
               <Button
-                variant='link'
-                onClick={() => openHistoryCard(id)}
+                type='button'
+                onClick={() => handleSuggestModif()}
                 disabled={userStatus !== AUTHENTICATED}
               >
-                {t('card_see_history')}
+                {t('card_suggest_modif')}
               </Button>
             </div>
+            <Button
+              className='btn-history'
+              variant='link'
+              onClick={() => setShowHistory(true)}
+              disabled={userStatus !== AUTHENTICATED}
+            >
+              {t('card_see_history')}
+            </Button>
           </Card.Footer>
         </Card.Body>
       </Card>
@@ -154,7 +155,17 @@ const CardPopup = ({ properties }: Props) => {
       >
         {modal.message}
       </FeedbackModal>
-      <SuggestModal idFr={idFr} idEn={idEn} />
+      <SuggestModal
+        show={showSuggest}
+        onHide={() => setShowSuggest(false)}
+        idFr={idFr}
+        idEn={idEn}
+      />
+      <HistoryModal
+        show={showHistory}
+        onHide={() => setShowHistory(false)}
+        properties={properties}
+      />
     </Popup>
   );
 };

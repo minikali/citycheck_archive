@@ -1,0 +1,53 @@
+.history-modal .modal-content {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  h2 {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .phase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0;
+    margin: 0;
+    border-radius: 20px;
+    background: var(--green);
+    color: #fff;
+    padding: 5px 20px;
+    &__1 {
+      background: var(--green);
+    }
+    &__2 {
+      background: var(--orange);
+    }
+    &__3 {
+      background: var(--red);
+    }
+  }
+  .info {
+    width: 100%;
+    .author {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .description {
+      min-height: 200px;
+      font-size: 14px;
+      padding: 0 10px;
+      margin: 10px 0;
+    }
+    .date {
+      width: 100%;
+      font-size: 12px;
+      padding: 0 10px;
+      text-align: right;
+    }
+  }
+}

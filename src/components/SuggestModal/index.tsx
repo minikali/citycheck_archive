@@ -7,6 +7,7 @@ import TextArea from '@/components/UserInput/TextArea';
 import './style.scss';
 import { AuthContext } from '@/context/AuthContext';
 import FeedbackModal from '@/components/FeedbackModal';
+import Button from 'react-bootstrap/Button';
 
 interface Props {
   show: boolean;
@@ -25,9 +26,6 @@ const SuggestModal = ({ show, onHide, idFr, idEn }: Props) => {
     show: false,
     message: '',
   });
-  const handleHide = () => {
-    onHide();
-  };
 
   const postSuggest = async (params) => {
     try {
@@ -82,13 +80,13 @@ const SuggestModal = ({ show, onHide, idFr, idEn }: Props) => {
         message: t('suggest_modif_error'),
       });
     }
-    handleHide();
+    onHide();
   };
 
   return (
     <>
-      <Modal show={show} onHide={handleHide}>
-        <h1>{t('suggest_modif_title')}</h1>
+      <Modal className='suggest-modal' show={show} onHide={onHide} centered>
+        <h2>{t('suggest_modif_title')}</h2>
         <Form onSubmit={handleSubmit}>
           <SelectPhase label={t('change_phase_needed')} setPhase={setPhase} />
           <TextArea
@@ -98,6 +96,7 @@ const SuggestModal = ({ show, onHide, idFr, idEn }: Props) => {
             setValue={setJustify}
             required
           />
+          <Button type='submit'>{t('submit_btn_suggest')}</Button>
         </Form>
       </Modal>
       <FeedbackModal

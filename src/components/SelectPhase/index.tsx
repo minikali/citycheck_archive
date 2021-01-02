@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SelectPhaseInput from '../SelectPhaseInput';
-import './SelectPhase.css';
+import './style.scss';
 
 const GREEN_THEME = 'green';
 const ORANGE_THEME = 'orange';

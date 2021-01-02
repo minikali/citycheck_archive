@@ -1,0 +1,19 @@
+.search-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  // form {
+  //   background-color: #fff;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   padding: 2px;
+  //   .form-group {
+  //     margin: 0;
+  //   }
+  // }
+  .async-select {
+    width: 500px;
+  }
+}
