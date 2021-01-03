@@ -40,7 +40,9 @@ const AuthDropdown = () => {
       <Dropdown.Toggle variant='link'>
         {userStatus === AUTHENTICATED && (
           <span className='username'>
-            {`${t('welcome')} ${userinfo.user.name}`}
+            {t('welcome')}
+            <br />
+            {userinfo.user.name}
           </span>
         )}
         <img

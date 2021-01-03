@@ -1,3 +1,4 @@
+import ReactDOM from 'react-dom';
 import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -23,13 +24,15 @@ const FeedbackModal = ({ show, onHide, variant, children }: Props) => {
   }, [show]);
 
   return (
-    show && (
+    show &&
+    ReactDOM.createPortal(
       <Container className={`feedback-modal ${variant}`} onClick={onHide}>
         <p>{children}</p>
         <Button onClick={onHide} variant='link'>
           <img src='assets/images/crosscircle-icon.png' alt='close btn' />
         </Button>
-      </Container>
+      </Container>,
+      document.getElementById('__next')
     )
   );
 };

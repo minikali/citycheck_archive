@@ -19,7 +19,7 @@ const Header = () => {
       <Row>
         <Col
           className='header__logo'
-          xs={{ span: 5, order: 1 }}
+          xs={{ span: 3, order: 1 }}
           md={{ span: 3, order: 1 }}
           lg={{ span: 2, order: 1 }}
         >
@@ -39,7 +39,7 @@ const Header = () => {
         </Col>
         <Col
           className='header__lang-select'
-          xs={{ span: 2, order: 2 }}
+          xs={{ span: 2, order: 3 }}
           md={{ span: 3, order: 3 }}
           lg={{ span: 2, order: 3 }}
         >
@@ -54,14 +54,14 @@ const Header = () => {
         </Col>
         <Col
           className='header__nav'
-          xs={{ span: 3, order: 4 }}
+          xs={{ span: 2, order: 4 }}
           md={{ span: 8, offset: 2, order: 5 }}
         >
           <NavMenu />
         </Col>
         <Col
           className='header__auth'
-          xs={{ span: 2, order: 3 }}
+          xs={{ span: 5, order: 2 }}
           md={{ span: 2, order: 6 }}
         >
           <AuthDropdown />

@@ -1,11 +1,13 @@
 .header {
   font-family: 'Ubuntu', sans-serif;
   padding: 15px;
+  max-width: unset;
   &__logo,
   &__title,
   &__lang-select,
   &__banner {
     display: flex;
+    align-items: center;
   }
   &__logo img {
     width: 40px;
@@ -91,8 +93,14 @@
 
 /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+  .header {
+    max-width: 960px;
+  }
 }
 
 /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+  .header {
+    max-width: 1140px;
+  }
 }

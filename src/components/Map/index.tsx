@@ -11,9 +11,15 @@ import Markers from '@/components/Markers';
 import config from '@/config';
 import './style.scss';
 
-const LeafletMap = () => {
+interface Props {
+  map: any;
+  setMap: any;
+  children: React.ReactNode;
+}
+
+const LeafletMap = ({ map, setMap, children }: Props) => {
   const [addr, setAddr] = useState();
-  const [map, setMap] = useState(null);
+  // const [map, setMap] = useState(null);
   const mapRef = useRef(null);
   const handleAddr = (v) => {
     setAddr(v);
@@ -46,8 +52,9 @@ const LeafletMap = () => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-        <Markers map={map} />
+
         <ZoomControl position='bottomright' />
+        {children}
       </MapContainer>
     </div>
   );
