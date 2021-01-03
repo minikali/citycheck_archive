@@ -8,7 +8,12 @@
   align-items: center;
 }
 
-.leaflet-container {
-  width: 100%;
-  height: calc(100vh - 20px);
+.home {
+  position: relative;
+  .search-box {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 999;
+  }
 }
