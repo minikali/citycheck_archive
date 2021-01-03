@@ -26,6 +26,14 @@
         color: var(--secondary);
       }
     }
+    &__option {
+      background-color: #fff;
+      color: #000000;
+      &:hover {
+        background-color: lightgrey;
+        cursor: pointer;
+      }
+    }
   }
 }
 

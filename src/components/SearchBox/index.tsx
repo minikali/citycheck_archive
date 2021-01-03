@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import AsyncSelect from 'react-select/async';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'react-bootstrap/Spinner';
+import debounce from 'debounce-promise';
 import './style.scss';
 
 interface Props {
   addr: any;
   setAddr: (v: any) => void;
+  onFocus: () => void;
 }
 
-const SearchBox = ({ addr, setAddr }: Props) => {
+const SearchBox = ({ addr, setAddr, onFocus }: Props) => {
   const [show, setShow] = useState(false);
   const [provider] = useState(new OpenStreetMapProvider());
   const { t } = useTranslation();
@@ -36,6 +38,10 @@ const SearchBox = ({ addr, setAddr }: Props) => {
     });
   };
 
+  const loadOptionsDebounce = debounce(loadOptions, 1000, {
+    leading: true,
+  });
+
   const handleInputChange = (v: string) => {
     if (v?.length > 2) setShow(true);
     else setShow(false);
@@ -51,10 +57,6 @@ const SearchBox = ({ addr, setAddr }: Props) => {
     </div>
   );
 
-  useEffect(() => {
-    console.log('addr', addr);
-  }, [addr]);
-
   return (
     <div className='search-box'>
       <AsyncSelect
@@ -62,13 +64,14 @@ const SearchBox = ({ addr, setAddr }: Props) => {
         value={addr}
         className='async-select'
         classNamePrefix='async-select'
-        loadOptions={loadOptions}
+        loadOptions={(inputValue) => loadOptionsDebounce(inputValue)}
         cacheOptions
         onChange={handleChange}
         isClearable
         onInputChange={handleInputChange}
         menuIsOpen={show}
         components={{ LoadingIndicator }}
+        onFocus={onFocus}
       />
     </div>
   );
