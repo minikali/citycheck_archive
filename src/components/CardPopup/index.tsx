@@ -87,7 +87,7 @@ const CardPopup = ({ properties }: Props) => {
   };
 
   return (
-    <Popup>
+    <Popup offset={[0, -15]}>
       <Card className='card-popup'>
         <Card.Header>
           <h2 className={`phase phase_${phase}`}>{t(`phase_${phase}`)}</h2>

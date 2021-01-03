@@ -1,12 +1,16 @@
 import React from 'react';
 import { DivIcon, LatLngTuple } from 'leaflet';
 import { v4 as uuidv4 } from 'uuid';
-import { Marker, Popup } from 'react-leaflet';
+import { Marker } from 'react-leaflet';
 import useMarkers from '@/hooks/useMarkers';
-import './style.scss';
 import CardPopup from '@/components/CardPopup';
+import './style.scss';
 
-const Markers = () => {
+interface Props {
+  map: any;
+}
+
+const Markers = ({ map }: Props) => {
   const { points, zoomOnCluster } = useMarkers();
 
   return (
@@ -17,6 +21,7 @@ const Markers = () => {
           geometry.coordinates[1],
           geometry.coordinates[0],
         ];
+        // Cluster
         if (properties.cluster) {
           return (
             <Marker
@@ -36,15 +41,24 @@ const Markers = () => {
             />
           );
         }
+        // Pin marker
         return (
           <Marker
             key={uuidv4()}
             position={position}
+            riseOnHover
             icon={
-              new DivIcon({
-                className: `marker marker__phase-${properties.phase}`,
-                iconSize: [25, 40],
-              })
+              new DivIcon(
+                map?.getZoom() > 13
+                  ? {
+                      html: `<div>${properties.title}</div><span class="tip"></span>`,
+                      className: `marker-label marker-label__phase-${properties.phase}`,
+                    }
+                  : {
+                      className: `marker marker__phase-${properties.phase}`,
+                      iconSize: [25, 40],
+                    }
+              )
             }
           >
             <CardPopup properties={properties} />

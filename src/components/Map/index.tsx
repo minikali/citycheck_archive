@@ -1,7 +1,7 @@
 // Libraries
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
 
 // Components
 import SearchBox from '@/components/SearchBox';
@@ -22,10 +22,6 @@ const LeafletMap = () => {
     }
   };
 
-  const handleWhenCreated = (m) => {
-    setMap(m);
-  };
-
   const handleSearchboxFocus = () => {
     window.scrollTo(0, mapRef.current.offsetTop - 10);
   };
@@ -43,13 +39,15 @@ const LeafletMap = () => {
         }
         zoom={isMobile ? config.defaultZoomMobile : config.defaultZoomDesktop}
         zoomControl={false}
-        whenCreated={handleWhenCreated}
+        scrollWheelZoom={false}
+        whenCreated={setMap}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-        <Markers />
+        <Markers map={map} />
+        <ZoomControl position='bottomright' />
       </MapContainer>
     </div>
   );

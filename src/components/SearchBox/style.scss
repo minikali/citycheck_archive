@@ -29,7 +29,8 @@
     &__option {
       background-color: #fff;
       color: #000000;
-      &:hover {
+      &:hover,
+      &--is-focused {
         background-color: lightgrey;
         cursor: pointer;
       }
