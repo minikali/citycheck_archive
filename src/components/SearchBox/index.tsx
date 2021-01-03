@@ -1,46 +1,74 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import AsyncSelect from 'react-select/async';
-
+import { useTranslation } from 'react-i18next';
+import Spinner from 'react-bootstrap/Spinner';
 import './style.scss';
 
-const fetchData = async (inputValue) => {
-  const provider = new OpenStreetMapProvider();
+interface Props {
+  addr: any;
+  setAddr: (v: any) => void;
+}
 
-  const results = await provider.search({ query: inputValue });
-  return results.map(({ label }) => label);
-};
+const SearchBox = ({ addr, setAddr }: Props) => {
+  const [show, setShow] = useState(false);
+  const [provider] = useState(new OpenStreetMapProvider());
+  const { t } = useTranslation();
 
-// eslint-disable-next-line arrow-body-style
-const loadOptions = (inputValue) => {
-  // console.log('inputValue', inputValue);
-  // callback(fetchData(inputValue));
-  return new Promise((resolve) => {
-    resolve(fetchData(inputValue));
-  });
-};
-
-const SearchBox = () => {
-  const [query, setQuery] = useState('');
-  const [addresses, setAddresses] = useState([]);
-  // const [provider] = useState(new OpenStreetMapProvider());
-
-  const handleInputChange = (value) => {
-    const newValue = value.replace(/\W/g, '');
-    setQuery(newValue);
-    return newValue;
+  const fetchData = async (inputValue) => {
+    try {
+      const results = await provider.search({ query: inputValue });
+      return results.map(({ label, x, y, bounds }) => ({
+        label,
+        bounds,
+        position: { lat: x, lng: y },
+      }));
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
   };
+
+  const loadOptions = (inputValue) => {
+    if (inputValue.length < 3) return [];
+    return new Promise((resolve) => {
+      resolve(fetchData(inputValue));
+    });
+  };
+
+  const handleInputChange = (v: string) => {
+    if (v?.length > 2) setShow(true);
+    else setShow(false);
+  };
+
+  const handleChange = (v) => {
+    setAddr(v);
+  };
+
+  const LoadingIndicator = () => (
+    <div className='loading-indicator'>
+      <Spinner animation='border' />
+    </div>
+  );
+
+  useEffect(() => {
+    console.log('addr', addr);
+  }, [addr]);
 
   return (
     <div className='search-box'>
       <AsyncSelect
+        placeholder={t('enter_address')}
+        value={addr}
         className='async-select'
         classNamePrefix='async-select'
         loadOptions={loadOptions}
-        defaultOptions={[]}
+        cacheOptions
+        onChange={handleChange}
+        isClearable
         onInputChange={handleInputChange}
+        menuIsOpen={show}
+        components={{ LoadingIndicator }}
       />
     </div>
   );
