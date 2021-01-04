@@ -28,10 +28,10 @@
     justify-content: flex-end;
   }
   &__banner {
-    flex-basis: 100vw;
     transform: translateX(-50%);
     left: 50%;
-    min-width: 100vw;
+    margin: 0 -50% 0 0;
+    min-width: 98vw;
     max-height: 400px;
     justify-content: center;
     align-items: center;
