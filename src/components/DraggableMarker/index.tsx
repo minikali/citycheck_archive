@@ -1,14 +1,12 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Marker, Popup } from 'react-leaflet';
 
-const center = {
-  lat: 51.505,
-  lng: -0.09,
+interface Props {
+  position: any;
+  setPosition: (any) => void;
 }
 
-const DraggableMarker = () => {
-  const [draggable, setDraggable] = useState(false);
-  const [position, setPosition] = useState(center);
+const DraggableMarker = ({ position, setPosition }: Props) => {
   const markerRef = useRef(null);
   const eventHandlers = useMemo(
     () => ({
@@ -21,25 +19,14 @@ const DraggableMarker = () => {
     }),
     []
   );
-  const toggleDraggable = useCallback(() => {
-    setDraggable((d) => !d);
-  }, []);
 
   return (
     <Marker
-      draggable={draggable}
+      draggable
       eventHandlers={eventHandlers}
       position={position}
       ref={markerRef}
-    >
-      <Popup minWidth={90}>
-        <span onClick={toggleDraggable}>
-          {draggable
-            ? 'Marker is draggable'
-            : 'Click here to make marker draggable'}
-        </span>
-      </Popup>
-    </Marker>
+    />
   );
 };
 

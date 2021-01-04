@@ -9,12 +9,12 @@ interface Props {
   addr: any;
   setAddr: (v: any) => void;
   onFocus?: () => void;
-  placeholder?: string
+  placeholder?: string;
 }
 
 const defaultProps = {
   onFocus: null,
-  placeholder: ''
+  placeholder: '',
 };
 
 const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {

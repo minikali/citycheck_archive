@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout';
 import dynamic from 'next/dynamic';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
@@ -40,6 +40,7 @@ const Suggest = () => {
   const [phase, setPhase] = useState(1);
   const [description, setDescription] = useState('');
   const [justify, setJustify] = useState('');
+  const [position, setPosition] = useState(null);
   const { t } = useTranslation();
 
   const handleAddr = (v) => {
@@ -53,6 +54,11 @@ const Suggest = () => {
     setDescription(e.target.value);
   };
 
+  const handleSetMap = (m) => {
+    setMap(m);
+    setPosition(m.getCenter());
+  };
+
   const handleChangeJustify = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJustify(e.target.value);
   };
@@ -62,8 +68,13 @@ const Suggest = () => {
       <Container fluid className='suggest'>
         <Row>
           <Col ref={mapRef} md={9}>
-            <MapWithoutSSR setMap={setMap}>
-              <DraggableMarkerWithoutSSR />
+            <MapWithoutSSR setMap={handleSetMap}>
+              {position && (
+                <DraggableMarkerWithoutSSR
+                  position={position}
+                  setPosition={setPosition}
+                />
+              )}
             </MapWithoutSSR>
           </Col>
           <Col md={3}>
