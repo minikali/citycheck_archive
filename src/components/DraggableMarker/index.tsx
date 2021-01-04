@@ -1,12 +1,14 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { Marker, Popup } from 'react-leaflet';
-
+import React, { useMemo, useRef } from 'react';
+import { Marker } from 'react-leaflet';
+import { DivIcon } from 'leaflet';
+import "./style.scss"
 interface Props {
   position: any;
   setPosition: (any) => void;
+  phase: number;
 }
 
-const DraggableMarker = ({ position, setPosition }: Props) => {
+const DraggableMarker = ({ position, setPosition, phase }: Props) => {
   const markerRef = useRef(null);
   const eventHandlers = useMemo(
     () => ({
@@ -26,6 +28,12 @@ const DraggableMarker = ({ position, setPosition }: Props) => {
       eventHandlers={eventHandlers}
       position={position}
       ref={markerRef}
+      icon={
+        new DivIcon({
+          className: `marker marker__phase-${phase}`,
+          iconSize: [25, 40],
+        })
+      }
     />
   );
 };

@@ -1,0 +1,15 @@
+.marker {
+  background-size: 100% 100%;
+  &__phase-1 {
+    background-image: url('/assets/images/green-pin.png');
+  }
+  &__phase-2 {
+    background-image: url('/assets/images/orange-pin.png');
+  }
+  &__phase-3 {
+    background-image: url('/assets/images/red-pin.png');
+  }
+  &:hover {
+    top: -2px;
+  }
+}

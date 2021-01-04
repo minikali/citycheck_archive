@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout';
 import dynamic from 'next/dynamic';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
@@ -10,11 +10,9 @@ import { useTranslation } from 'react-i18next';
 import SelectPhase from '@/components/SelectPhase';
 import Card from 'react-bootstrap/Card';
 import './style.scss';
+import { AuthContext } from '@/context/AuthContext';
 
 const Suggest = () => {
-  const [addr, setAddr] = useState();
-  const mapRef = useRef(null);
-
   const MapWithoutSSR = React.useMemo(
     () =>
       dynamic(() => import('@components/Map'), {
@@ -36,12 +34,43 @@ const Suggest = () => {
       }),
     []
   );
+  const { userinfo } = useContext(AuthContext);
+  const [addr, setAddr] = useState(null);
+  const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [phase, setPhase] = useState(1);
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [justify, setJustify] = useState('');
   const [position, setPosition] = useState(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const sendSuggestion = async (data, userId) => {
+    try {
+      const lang = i18n.language;
+      const path = lang === 'fr' ? '/french-projects' : '/english-projects';
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}${path}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...data,
+            valid: false,
+            user: userId,
+          }),
+        }
+      );
+      const json = await response.json();
+      if (!response.ok) throw new Error(json);
+      return { response: json, error: null };
+    } catch (err) {
+      console.error(err);
+      return { response: null, error: err };
+    }
+  };
 
   const handleAddr = (v) => {
     setAddr(v);
@@ -63,26 +92,48 @@ const Suggest = () => {
     setJustify(e.target.value);
   };
 
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    const form = {
+      title,
+      address: addr.label,
+      description,
+      justify,
+      lat: addr.position.lat,
+      lng: addr.position.lng,
+      phase,
+    };
+    sendSuggestion(form, userinfo.id);
+  };
+
   return (
     <Layout>
       <Container fluid className='suggest'>
         <Row>
           <Col ref={mapRef} md={9}>
             <MapWithoutSSR setMap={handleSetMap}>
-              {position && (
+              {addr?.position && (
                 <DraggableMarkerWithoutSSR
-                  position={position}
+                  position={addr.position}
                   setPosition={setPosition}
+                  phase={phase}
                 />
               )}
             </MapWithoutSSR>
           </Col>
           <Col md={3}>
             <Card>
-              <Form>
+              <Form onSubmit={handleSubmit}>
                 <Form.Group>
                   <Form.Label>{t('title')}</Form.Label>
-                  <Form.Control type='email' />
+                  <Form.Control
+                    type='text'
+                    required
+                    onChange={handleChangeTitle}
+                  />
                 </Form.Group>
 
                 <Form.Group>

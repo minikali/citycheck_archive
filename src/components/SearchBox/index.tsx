@@ -27,7 +27,7 @@ const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {
       return results.map(({ label, x, y, bounds }) => ({
         label,
         bounds,
-        position: { lat: x, lng: y },
+        position: { lat: y, lng: x },
       }));
     } catch (error) {
       console.log(error);
