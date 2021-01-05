@@ -4,8 +4,8 @@
     width: 280px;
     &__control--is-focused,
     &__control:hover {
-      border-color: var(--secondary);
-      box-shadow: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.2rem rgba(25, 25, 112, 0.25);
     }
     &__dropdown-indicator,
     &__indicator-separator {
@@ -19,7 +19,7 @@
       .spinner-border {
         width: 20px;
         height: 20px;
-        color: var(--secondary);
+        color: var(--primary);
       }
     }
     &__option {

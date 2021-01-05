@@ -27,9 +27,9 @@ const Suggest = () => {
       }),
     []
   );
-  const DraggableMarkerWithoutSSR = React.useMemo(
+  const SimpleMarkerWithoutSSR = React.useMemo(
     () =>
-      dynamic(() => import('@components/DraggableMarker'), {
+      dynamic(() => import('@/components/SimpleMarker'), {
         ssr: false, // This line is important. It's what prevents server-side render
       }),
     []
@@ -42,7 +42,6 @@ const Suggest = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [justify, setJustify] = useState('');
-  const [position, setPosition] = useState(null);
   const { t, i18n } = useTranslation();
 
   const sendSuggestion = async (data, userId) => {
@@ -83,11 +82,6 @@ const Suggest = () => {
     setDescription(e.target.value);
   };
 
-  const handleSetMap = (m) => {
-    setMap(m);
-    setPosition(m.getCenter());
-  };
-
   const handleChangeJustify = (e: React.ChangeEvent<HTMLInputElement>) => {
     setJustify(e.target.value);
   };
@@ -96,7 +90,8 @@ const Suggest = () => {
     setTitle(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const form = {
       title,
       address: addr.label,
@@ -114,11 +109,10 @@ const Suggest = () => {
       <Container fluid className='suggest'>
         <Row>
           <Col ref={mapRef} md={9}>
-            <MapWithoutSSR setMap={handleSetMap}>
+            <MapWithoutSSR setMap={setMap}>
               {addr?.position && (
-                <DraggableMarkerWithoutSSR
+                <SimpleMarkerWithoutSSR
                   position={addr.position}
-                  setPosition={setPosition}
                   phase={phase}
                 />
               )}

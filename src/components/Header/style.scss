@@ -31,7 +31,7 @@
     transform: translateX(-50%);
     left: 50%;
     margin: 0 -50% 0 0;
-    min-width: 98vw;
+    min-width: calc(100vw - 17px);
     max-height: 400px;
     justify-content: center;
     align-items: center;
