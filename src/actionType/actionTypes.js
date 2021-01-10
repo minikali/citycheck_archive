@@ -48,3 +48,6 @@ export const PASSWORD_UPDATED = `${prefix}PASSWORD_UPDATED`;
 export const PASSWORD_ERROR = `${prefix}PASSWORD_ERROR`;
 export const EMAIL_UPDATED = `${prefix}EMAIL_UPDATED`;
 export const EMAIL_FORMAT_ERROR = `${prefix}EMAIL_FORMAT_ERROR`;
+
+prefix = "useRecoverPassword/";
+
