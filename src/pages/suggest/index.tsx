@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout';
 import dynamic from 'next/dynamic';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
@@ -9,8 +9,11 @@ import Button from 'react-bootstrap/Button';
 import { useTranslation } from 'react-i18next';
 import SelectPhase from '@/components/SelectPhase';
 import Card from 'react-bootstrap/Card';
-import './style.scss';
 import { AuthContext } from '@/context/AuthContext';
+import useSuggestSite from '@/hooks/useSuggestSite';
+import './style.scss';
+import { AUTHENTICATED, ERROR, SUCCESS } from '@/actionType/actionTypes';
+import FeedbackModal from '@/components/FeedbackModal';
 
 const Suggest = () => {
   const MapWithoutSSR = React.useMemo(
@@ -34,110 +37,123 @@ const Suggest = () => {
       }),
     []
   );
-  const { userinfo } = useContext(AuthContext);
-  const [addr, setAddr] = useState(null);
-  const mapRef = useRef(null);
-  const [map, setMap] = useState(null);
-  const [phase, setPhase] = useState(1);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [justify, setJustify] = useState('');
-  const { t, i18n } = useTranslation();
-
-  const sendSuggestion = async (data, userId) => {
-    try {
-      const lang = i18n.language;
-      const path = lang === 'fr' ? '/french-projects' : '/english-projects';
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}${path}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            ...data,
-            valid: false,
-            user: userId,
-          }),
-        }
-      );
-      const json = await response.json();
-      if (!response.ok) throw new Error(json);
-      return { response: json, error: null };
-    } catch (err) {
-      console.error(err);
-      return { response: null, error: err };
-    }
+  const initialFormData = {
+    title: '',
+    address: null,
+    phase: 1,
+    description: '',
+    justify: '',
   };
-
-  const handleAddr = (v) => {
-    setAddr(v);
-    if (v) {
-      map.fitBounds(v.bounds);
+  const { userinfo, userStatus, setToggle } = useContext(AuthContext);
+  const { status, sendSuggestion } = useSuggestSite();
+  const [map, setMap] = useState(null);
+  const { t, i18n } = useTranslation();
+  const [formData, setFormData] = useState(initialFormData);
+  const [show, setShow] = useState(false);
+  const [modal, setModal] = useState({
+    show: false,
+    message: '',
+    variant: 'success',
+  });
+  const handleAddr = (address) => {
+    setFormData({
+      ...formData,
+      address,
+    });
+    if (address) {
+      map.fitBounds(address.bounds);
     }
   };
 
   const handleChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDescription(e.target.value);
+    setFormData({ ...formData, description: e.target.value });
   };
 
   const handleChangeJustify = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setJustify(e.target.value);
+    setFormData({ ...formData, justify: e.target.value });
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+    setFormData({ ...formData, title: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = {
-      title,
-      address: addr.label,
-      description,
-      justify,
-      lat: addr.position.lat,
-      lng: addr.position.lng,
-      phase,
-    };
-    sendSuggestion(form, userinfo.id);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (userStatus === AUTHENTICATED) {
+      const form = {
+        ...formData,
+        address: formData.address.label,
+        position: formData.address.position,
+        lat: formData.address.position.lat,
+        lng: formData.address.position.lng,
+      };
+      sendSuggestion(form, userinfo.id, i18n.language);
+    } else {
+      setShow(true);
+    }
   };
+
+  useEffect(() => {
+    if (status === SUCCESS) {
+      setModal({
+        show: true,
+        message: t('suggest_modif_thanks'),
+        variant: 'success',
+      });
+      setFormData(initialFormData);
+    } else if (status === ERROR) {
+      setModal({
+        show: true,
+        message: t('suggest_modif_thanks'),
+        variant: 'error',
+      });
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (userStatus === AUTHENTICATED) setShow(false);
+  }, [userinfo]);
 
   return (
     <Layout>
       <Container fluid className='suggest'>
         <Row>
-          <Col ref={mapRef} md={9}>
+          <Col md={9}>
             <MapWithoutSSR setMap={setMap}>
-              {addr?.position && (
+              {formData.address?.position && (
                 <SimpleMarkerWithoutSSR
-                  position={addr.position}
-                  phase={phase}
+                  position={formData.address.position}
+                  phase={formData.phase}
                 />
               )}
             </MapWithoutSSR>
           </Col>
           <Col md={3}>
-            <Card>
+            <Card className='position-relative'>
               <Form onSubmit={handleSubmit}>
                 <Form.Group>
                   <Form.Label>{t('title')}</Form.Label>
                   <Form.Control
                     type='text'
-                    required
+                    value={formData.title}
                     onChange={handleChangeTitle}
+                    required
                   />
                 </Form.Group>
 
                 <Form.Group>
                   <Form.Label>{t('suggest_label_address')}</Form.Label>
-                  <SearchBoxWithoutSSR addr={addr} setAddr={handleAddr} />
+                  <SearchBoxWithoutSSR
+                    addr={formData.address}
+                    setAddr={handleAddr}
+                  />
                 </Form.Group>
                 <Form.Group>
                   <SelectPhase
                     label={t('suggest_label_choose_phase')}
-                    setPhase={setPhase}
+                    setPhase={(n: number) =>
+                      setFormData({ ...formData, phase: n })
+                    }
                   />
                 </Form.Group>
                 <Form.Group>
@@ -145,6 +161,7 @@ const Suggest = () => {
                   <Form.Control
                     as='textarea'
                     rows={5}
+                    value={formData.description}
                     onChange={handleChangeDescription}
                     required
                   />
@@ -154,6 +171,7 @@ const Suggest = () => {
                   <Form.Control
                     as='textarea'
                     rows={3}
+                    value={formData.justify}
                     onChange={handleChangeJustify}
                     required
                   />
@@ -163,7 +181,28 @@ const Suggest = () => {
                   {t('confirm_btn')}
                 </Button>
               </Form>
+              {show && (
+                <div className='login-overlay'>
+                  <p>{t('suggest_label_identify_interact')}</p>
+                  <Button variant='link' onClick={() => setToggle(true)}>
+                    <img
+                      width={30}
+                      height={30}
+                      src='assets/images/login-icon.png'
+                      alt='Login'
+                    />
+                  </Button>
+                </div>
+              )}
             </Card>
+            <FeedbackModal
+              show={modal.show}
+              onHide={() =>
+                setModal({ show: false, message: '', variant: 'success' })
+              }
+            >
+              {modal.message}
+            </FeedbackModal>
           </Col>
         </Row>
       </Container>

@@ -1,11 +1,9 @@
 // Modules
 import React, { useEffect } from 'react';
-import LayoutContextProvider from '@/context/LayoutContext';
 import { useTranslation } from 'react-i18next';
 import { initGA, logPageView } from '@/utils/analytics';
 
 // Components
-import AuthContextProvider from '@/context/AuthContext';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Head from 'next/head';
@@ -76,13 +74,9 @@ const Layout = ({ children }: Props) => {
       {!ready && <Spinner animation='border' role='status' />}
       {ready && (
         <Container className='layout' fluid>
-          <AuthContextProvider>
-            <LayoutContextProvider>
-              <Header />
-              {children}
-              <Footer />
-            </LayoutContextProvider>
-          </AuthContextProvider>
+          <Header />
+          {children}
+          <Footer />
         </Container>
       )}
     </>

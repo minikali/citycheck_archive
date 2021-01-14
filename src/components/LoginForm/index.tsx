@@ -52,6 +52,7 @@ const LoginForm = () => {
       setState(initialState);
     }
   }, [userStatus]);
+  
   return (
     <div className='login-form'>
       <h3>{t('login_title')}</h3>

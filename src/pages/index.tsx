@@ -19,7 +19,7 @@ const Home = () => {
   };
 
   const handleSearchboxFocus = () => {
-    window.scrollTo(0, mapRef.current.offsetTop - 10);
+    window.scrollTo(0, mapRef.current.offsetTop - 70);
   };
 
   const MapWithoutSSR = React.useMemo(

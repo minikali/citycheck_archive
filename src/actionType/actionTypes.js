@@ -5,12 +5,12 @@ export const SUCCESS = `SUCCESS`;
 export const ERROR = `ERROR`;
 export const UNKNOWN = `UNKNOWN`;
 
-let prefix = "useAuth/";
+let prefix = 'useAuth/';
 
 export const AUTHENTICATED = `${prefix}AUTHENTICATED`;
 export const UNAUTHENTICATED = `${prefix}UNAUTHENTICATED`;
 
-prefix = "useLogin/";
+prefix = 'useLogin/';
 
 export const LOGIN_SUCCESS = `${prefix}LOGIN_SUCCESS`;
 export const LOGIN_ERROR = `${prefix}LOGIN_ERROR`;
@@ -28,7 +28,7 @@ export const PASSWORD_TOO_SHORT = `${prefix}PASSWORD_TOO_SHORT`;
 export const LOGIN_FETCHING = `${prefix}LOGIN_FETCHING`;
 export const PROVIDE_PASSWORD = `${prefix}PROVIDE_PASSWORD`;
 
-prefix = "useContact/";
+prefix = 'useContact/';
 export const FORM_SUCCESS = `${prefix}FORM_SUCCESS`;
 export const FORM_FETCHING = `${prefix}FORM_FETCHING`;
 export const FORM_ERROR = `${prefix}FORM_ERROR`;
@@ -37,7 +37,7 @@ export const FILES_FETCHING = `${prefix}FILES_FETCHING`;
 export const FILES_ERROR = `${prefix}FILES_ERROR`;
 export const CONTACT_UNKNOWN = `${prefix}CONTACT_UNKNOWN`;
 
-prefix = "useAccount/";
+prefix = 'useAccount/';
 export const USERNAME_FETCHING = `${prefix}USERNAME_FETCHING`;
 export const EMAIL_FETCHING = `${prefix}EMAIL_FETCHING`;
 export const PASSWORD_FETCHING = `${prefix}PASSWORD_FETCHING`;
@@ -49,5 +49,10 @@ export const PASSWORD_ERROR = `${prefix}PASSWORD_ERROR`;
 export const EMAIL_UPDATED = `${prefix}EMAIL_UPDATED`;
 export const EMAIL_FORMAT_ERROR = `${prefix}EMAIL_FORMAT_ERROR`;
 
-prefix = "useRecoverPassword/";
+prefix = 'useRecoverPassword/';
 
+export const PWD_TOO_SHORT = `${prefix}PWD_TOO_SHORT`;
+export const PWD_NOT_MATCH = `${prefix}PWD_NOT_MATCH`;
+export const CODE_WRONG_OR_EXPIRED = `${prefix}CODE_WRONG_OR_EXPIRED`;
+
+prefix = 'useSuggestSite/';
