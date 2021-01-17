@@ -5,7 +5,14 @@ import { useTranslation } from 'react-i18next';
 import Markdown from 'markdown-to-jsx';
 import './style.scss';
 
-const AboutUs = () => {
+interface Props {
+  meta: {
+    title: string;
+    description: string;
+  };
+}
+
+const AboutUs = ({ meta }: Props) => {
   const [content, setContent] = useState(null);
   const { i18n } = useTranslation();
 
@@ -22,12 +29,25 @@ const AboutUs = () => {
   }, [i18n.language]);
 
   return (
-    <Layout>
+    <Layout meta={meta}>
       <Container className='about-us'>
         {content && <Markdown>{content}</Markdown>}
       </Container>
     </Layout>
   );
+};
+
+export const getServerSideProps = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/seos?_limit=-1&label=aboutus`
+  );
+  const json = await response.json();
+  const meta = {
+    title: json[0].title,
+    description: json[0].description,
+  };
+
+  return { props: { meta } };
 };
 
 export default AboutUs;

@@ -5,7 +5,14 @@ import SuperclusterContextProvider from '@/context/SuperclusterContext';
 import Layout from '../components/Layout';
 import '../styles/style.scss';
 
-const Home = () => {
+interface Props {
+  meta: {
+    title: string;
+    description: string;
+  };
+}
+
+const Home = ({ meta }: Props) => {
   const [map, setMap] = useState(null);
   const [addr, setAddr] = useState();
   const mapRef = useRef(null);
@@ -44,7 +51,7 @@ const Home = () => {
     []
   );
   return (
-    <Layout>
+    <Layout meta={meta}>
       <SuperclusterContextProvider>
         <div ref={mapRef} className='home'>
           <SearchBoxWithoutSSR
@@ -60,6 +67,19 @@ const Home = () => {
       </SuperclusterContextProvider>
     </Layout>
   );
+};
+
+export const getServerSideProps = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/seos?_limit=-1&label=general`
+  );
+  const json = await response.json();
+  const meta = {
+    title: json[0].title,
+    description: json[0].description,
+  };
+
+  return { props: { meta } };
 };
 
 export default Home;

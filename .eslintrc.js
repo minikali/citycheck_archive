@@ -29,6 +29,9 @@ module.exports = {
     },
   },
   rules: {
+    'react/prop-types': 'off', // Since we do not use prop-types
+    'react/require-default-props': 'off', // Since we do not use prop-types
+    'react/default-props-match-prop-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/no-unresolved': 'off',
     'jsx-a11y/anchor-is-valid': 'off',

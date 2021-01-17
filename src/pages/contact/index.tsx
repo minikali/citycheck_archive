@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
-import "./style.scss"
+import './style.scss';
 
 export interface ContactForm {
   name: string;
@@ -17,7 +17,14 @@ export interface ContactForm {
   files: File[];
 }
 
-const Contact = () => {
+interface Props {
+  meta: {
+    title: string;
+    description: string;
+  };
+}
+
+const Contact = ({ meta }: Props) => {
   const initialForm = {
     name: '',
     email: '',
@@ -54,9 +61,9 @@ const Contact = () => {
   }, [error]);
 
   return (
-    <Layout>
-      <Container className="contact">
-        <Form className="contact__form" onSubmit={handleSubmit}>
+    <Layout meta={meta}>
+      <Container className='contact'>
+        <Form className='contact__form' onSubmit={handleSubmit}>
           <Form.Group controlId='contact-name'>
             <Form.Label>{t('contact_label_name')}</Form.Label>
             <Form.Control type='text' onChange={onChangeName} required />
@@ -88,6 +95,19 @@ const Contact = () => {
       </Container>
     </Layout>
   );
+};
+
+export const getServerSideProps = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/seos?_limit=-1&label=contact`
+  );
+  const json = await response.json();
+  const meta = {
+    title: json[0].title,
+    description: json[0].description,
+  };
+
+  return { props: { meta } };
 };
 
 export default Contact;

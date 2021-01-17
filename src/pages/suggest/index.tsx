@@ -15,7 +15,14 @@ import './style.scss';
 import { AUTHENTICATED, ERROR, SUCCESS } from '@/actionType/actionTypes';
 import FeedbackModal from '@/components/FeedbackModal';
 
-const Suggest = () => {
+interface Props {
+  meta: {
+    title: string;
+    description: string;
+  };
+}
+
+const Suggest = ({ meta }: Props) => {
   const MapWithoutSSR = React.useMemo(
     () =>
       dynamic(() => import('@components/Map'), {
@@ -115,7 +122,7 @@ const Suggest = () => {
   }, [userinfo]);
 
   return (
-    <Layout>
+    <Layout meta={meta}>
       <Container fluid className='suggest'>
         <Row>
           <Col md={9}>
@@ -208,6 +215,19 @@ const Suggest = () => {
       </Container>
     </Layout>
   );
+};
+
+export const getServerSideProps = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/seos?_limit=-1&label=suggest`
+  );
+  const json = await response.json();
+  const meta = {
+    title: json[0].title,
+    description: json[0].description,
+  };
+
+  return { props: { meta } };
 };
 
 export default Suggest;

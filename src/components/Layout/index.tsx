@@ -15,9 +15,18 @@ import './style.scss';
 
 interface Props {
   children: React.ReactNode;
+  meta?: {
+    title: string;
+    description: string;
+  };
 }
 
-const Layout = ({ children }: Props) => {
+const defaultProps = {
+  title: 'Citycheck',
+  description: `Vous faire profiter pleinement de vos excursions. © 2019-2021 Citycheck.fr La plateforme qui dresse l'état des lieux touristiques, historiques, patrimoniaux, culturels...`,
+};
+
+const Layout = ({ children, meta }: Props) => {
   const { ready } = useTranslation();
 
   useEffect(() => {
@@ -70,6 +79,8 @@ const Layout = ({ children }: Props) => {
           type='text/javascript'
           src='https://apis.google.com/js/plusone.js'
         />
+        <title>{meta.title}</title>
+        <meta name='description' content={meta.description} />
       </Head>
       {!ready && <Spinner animation='border' role='status' />}
       {ready && (
@@ -83,4 +94,5 @@ const Layout = ({ children }: Props) => {
   );
 };
 
+Layout.defaultProps = defaultProps;
 export default Layout;
