@@ -22,8 +22,11 @@ interface Props {
 }
 
 const defaultProps = {
-  title: 'Citycheck',
-  description: `Vous faire profiter pleinement de vos excursions. © 2019-2021 Citycheck.fr La plateforme qui dresse l'état des lieux touristiques, historiques, patrimoniaux, culturels...`,
+  children: <></>,
+  meta: {
+    title: 'Citycheck',
+    description: `Vous faire profiter pleinement de vos excursions. © 2019-2021 Citycheck.fr La plateforme qui dresse l'état des lieux touristiques, historiques, patrimoniaux, culturels...`,
+  },
 };
 
 const Layout = ({ children, meta }: Props) => {
