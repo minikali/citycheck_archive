@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "react-i18next";
 import SuperclusterContextProvider from "@/context/SuperclusterContext";
@@ -6,13 +6,14 @@ import Layout from "../components/Layout";
 import "../styles/style.scss";
 
 interface Props {
+  address?: string;
   meta: {
     title: string;
     description: string;
   };
 }
 
-const Home = ({ meta }: Props) => {
+const Home = ({ meta, address }: Props) => {
   const [map, setMap] = useState(null);
   const [addr, setAddr] = useState(null);
   const mapRef = useRef(null);
@@ -20,7 +21,7 @@ const Home = ({ meta }: Props) => {
 
   const handleAddr = (v) => {
     setAddr(v);
-    if (v) {
+    if (v && map) {
       map.fitBounds(v.bounds);
     }
   };
@@ -58,6 +59,12 @@ const Home = ({ meta }: Props) => {
     []
   );
 
+  useEffect(() => {
+    if (addr && map) {
+      map.fitBounds(addr.bounds);
+    }
+  }, [addr, map]);
+
   return (
     <Layout meta={meta}>
       <SuperclusterContextProvider>
@@ -67,6 +74,7 @@ const Home = ({ meta }: Props) => {
             setAddr={handleAddr}
             onFocus={handleSearchboxFocus}
             placeholder={t("enter_address")}
+            init={address}
           />
           <MapWithoutSSR setMap={setMap}>
             <PolygonWithoutSSR positions={addr?.geometry?.coordinates} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import Spinner from "react-bootstrap/Spinner";
@@ -10,6 +10,7 @@ interface Props {
   setAddr: (v: any) => void;
   onFocus?: () => void;
   placeholder?: string;
+  init?: any;
 }
 
 const defaultProps = {
@@ -17,7 +18,7 @@ const defaultProps = {
   placeholder: "",
 };
 
-const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {
+const SearchBox = ({ addr, setAddr, onFocus, placeholder, init }: Props) => {
   const [show, setShow] = useState(false);
   const [provider] = useState(new OpenStreetMapProvider());
 
@@ -25,7 +26,6 @@ const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {
     try {
       const results = await provider.search({
         query: inputValue,
-        polygon_geojson: 1,
       });
 
       return results.map(({ label, x, y, bounds }) => ({
@@ -121,6 +121,12 @@ const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {
       setAddr(null);
     }
   };
+
+  useEffect(() => {
+    if (init) {
+      handleChange(init);
+    }
+  }, []);
 
   const LoadingIndicator = () => (
     <div className="loading-indicator">

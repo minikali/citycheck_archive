@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import FeedbackModal from '@/components/FeedbackModal';
-import { GeojsonProperty } from '@/types';
-import { useTranslation } from 'react-i18next';
-import HistoryConfirmation from '@/components/HistoryConfimation';
-import HistorySuggest from '@/components/HistorySuggest';
-import './style.scss';
+import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import FeedbackModal from "@/components/FeedbackModal";
+import { GeojsonProperty } from "@/types";
+import { useTranslation } from "react-i18next";
+import HistoryConfirmation from "@/components/HistoryConfimation";
+import HistorySuggest from "@/components/HistorySuggest";
+import "./style.scss";
 
 interface Props {
   show: boolean;
@@ -27,28 +27,34 @@ const HistoryModal = ({ show, onHide, properties }: Props) => {
   const { t } = useTranslation();
   const [modal, setModal] = useState({
     show: false,
-    message: '',
+    message: "",
   });
 
-  const date = new Date(updated_at).toLocaleDateString('fr-FR');
-  const update = `${t('updated_on')} ${date}`;
-
+  const date = new Date(updated_at).toLocaleDateString("fr-FR");
+  const update = (() => {
+    if (project_confirmations?.length > 0) {
+      return new Date(
+        project_confirmations[project_confirmations.length - 1].updated_at
+      ).toLocaleDateString();
+    }
+    return new Date(updated_at).toLocaleDateString();
+  })();
   return (
     <>
-      <Modal className='history-modal' show={show} onHide={onHide} centered>
+      <Modal className="history-modal" show={show} onHide={onHide} centered>
         <h2>{title}</h2>
         <p className={`phase phase__${phase}`}>{t(`phase_${phase}`)}</p>
-        <div className='info'>
-          {userinfo?.user && <p className='author'>{userinfo.user.name}</p>}
-          <p className='description'>{justify}</p>
-          <p className='date'>{update}</p>
+        <div className="info">
+          {userinfo?.user && <p className="author">{userinfo.user.name}</p>}
+          <p className="description">{justify}</p>
+          <p className="date">{`${t("updated_on")} ${update}`}</p>
         </div>
         <HistoryConfirmation project_confirmations={project_confirmations} />
         <HistorySuggest project_histories={project_histories} />
       </Modal>
       <FeedbackModal
         show={modal.show}
-        onHide={() => setModal({ show: false, message: '' })}
+        onHide={() => setModal({ show: false, message: "" })}
       >
         {modal.message}
       </FeedbackModal>

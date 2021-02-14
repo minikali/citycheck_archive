@@ -50,7 +50,7 @@ const LayoutSitemap = () => {
       <ul>
         {sitemap.map(({ path, title }) => (
           <li key={uuidv4()}>
-            <Link href={`/map/${path}`}>{title}</Link>
+            <Link href={`/search/${path}`}>{title}</Link>
           </li>
         ))}
       </ul>

@@ -38,7 +38,14 @@ const CardPopup = ({ properties }: Props) => {
   });
   const [showSuggest, setShowSuggest] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
-  const update = new Date(updated_at).toLocaleDateString();
+  const update = (() => {
+    if (project_confirmations?.length > 0) {
+      return new Date(
+        project_confirmations[project_confirmations.length - 1].updated_at
+      ).toLocaleDateString();
+    }
+    return new Date(updated_at).toLocaleDateString();
+  })();
 
   const { idFr, idEn } = (() =>
     i18n.language === "fr"
@@ -88,11 +95,7 @@ const CardPopup = ({ properties }: Props) => {
   };
 
   return (
-    <Popup
-      offset={[0, -15]}
-      autoPan={true}
-      autoPanPadding={[0, 70]}
-    >
+    <Popup offset={[0, -15]} autoPan={true} autoPanPadding={[0, 70]}>
       <Card className="card-popup">
         <Card.Header>
           <h2 className={`phase phase_${phase}`}>{t(`phase_${phase}`)}</h2>
