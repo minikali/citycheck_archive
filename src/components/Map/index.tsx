@@ -21,6 +21,7 @@ const LeafletMap = ({ setMap, children }: Props) => (
     zoomControl={false}
     scrollWheelZoom={false}
     whenCreated={setMap}
+    tap={false}
   >
     <TileLayer
       attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

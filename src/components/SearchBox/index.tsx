@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import AsyncSelect from 'react-select/async';
-import Spinner from 'react-bootstrap/Spinner';
-import debounce from 'debounce-promise';
-import './style.scss';
+import React, { useState } from "react";
+import { OpenStreetMapProvider } from "leaflet-geosearch";
+import AsyncSelect from "react-select/async";
+import Spinner from "react-bootstrap/Spinner";
+import debounce from "debounce-promise";
+import "./style.scss";
 
 interface Props {
   addr: any;
@@ -14,7 +14,7 @@ interface Props {
 
 const defaultProps = {
   onFocus: null,
-  placeholder: '',
+  placeholder: "",
 };
 
 const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {
@@ -23,14 +23,18 @@ const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {
 
   const fetchData = async (inputValue) => {
     try {
-      const results = await provider.search({ query: inputValue });
+      const results = await provider.search({
+        query: inputValue,
+        polygon_geojson: 1,
+      });
+
       return results.map(({ label, x, y, bounds }) => ({
         label,
         bounds,
         position: { lat: y, lng: x },
       }));
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return [];
     }
   };
@@ -51,23 +55,86 @@ const SearchBox = ({ addr, setAddr, onFocus, placeholder }: Props) => {
     else setShow(false);
   };
 
-  const handleChange = (v) => {
-    setAddr(v);
+  const getGeoJson = async (address) => {
+    try {
+      const encodedAddress = encodeURIComponent(address);
+      const addressDetails = 1;
+      const format = "geojson";
+      const limit = 1;
+      const polygonGeojson = 1;
+      const viewbox = [
+        -15.117187500000002,
+        68.84766505841037,
+        67.50000000000001,
+        29.6880527498568,
+      ].join(",");
+      const uri =
+        `https://nominatim.openstreetmap.org/` +
+        `?addressdetails=${addressDetails}` +
+        `&q=${encodedAddress}` +
+        `&format=${format}` +
+        `&limit=${limit}` +
+        `&polygon_geojson=${polygonGeojson}` +
+        `&viewbox=${viewbox}`;
+      const response = await fetch(uri, {
+        method: "GET",
+        redirect: "follow",
+      });
+      const json = await response.json();
+      if (!response.ok) throw new Error(json);
+      return json.features.length > 0 ? json.features[0] : null;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+
+  const invertLatLng = (arrLatLng) => arrLatLng.map(([lng, lat]) => [lat, lng]);
+
+  const formatGeometry = ({ type, coordinates }) => {
+    if (type === "Polygon")
+      return {
+        type,
+        coordinates: coordinates.map((polygon) => invertLatLng(polygon)),
+      };
+    else if (type === "MultiPolygon")
+      return {
+        type,
+        coordinates: coordinates.map((polygons) =>
+          polygons.map((polygon) => invertLatLng(polygon))
+        ),
+      };
+    else return null;
+  };
+
+  const handleChange = async (v) => {
+    if (v) {
+      const response = await getGeoJson(v.label);
+      if (response) {
+        const geometry = formatGeometry(response.geometry);
+
+        setAddr({ ...v, geometry });
+      } else {
+        setAddr(v);
+      }
+    } else {
+      setAddr(null);
+    }
   };
 
   const LoadingIndicator = () => (
-    <div className='loading-indicator'>
-      <Spinner animation='border' />
+    <div className="loading-indicator">
+      <Spinner animation="border" />
     </div>
   );
 
   return (
-    <div className='search-box'>
+    <div className="search-box">
       <AsyncSelect
         placeholder={placeholder}
         value={addr}
-        className='async-select'
-        classNamePrefix='async-select'
+        className="async-select"
+        classNamePrefix="async-select"
         loadOptions={(inputValue) => loadOptionsDebounce(inputValue)}
         cacheOptions
         onChange={handleChange}

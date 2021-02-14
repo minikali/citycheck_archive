@@ -1,10 +1,10 @@
-import React from 'react';
-import { DivIcon, LatLngTuple } from 'leaflet';
-import { v4 as uuidv4 } from 'uuid';
-import { Marker } from 'react-leaflet';
-import useMarkers from '@/hooks/useMarkers';
-import CardPopup from '@/components/CardPopup';
-import './style.scss';
+import React from "react";
+import { DivIcon, LatLngTuple } from "leaflet";
+import { v4 as uuidv4 } from "uuid";
+import { Marker } from "react-leaflet";
+import useMarkers from "@/hooks/useMarkers";
+import CardPopup from "@/components/CardPopup";
+import "./style.scss";
 
 interface Props {
   map: any;
@@ -30,7 +30,7 @@ const Markers = ({ map }: Props) => {
               icon={
                 new DivIcon({
                   html: `<div>${properties.point_count}</div>`,
-                  className: 'marker-cluster',
+                  className: "marker-cluster",
                 })
               }
               eventHandlers={{
@@ -46,7 +46,7 @@ const Markers = ({ map }: Props) => {
           <Marker
             key={uuidv4()}
             position={position}
-            riseOnHover
+            // riseOnHover
             icon={
               new DivIcon(
                 map?.getZoom() > 14

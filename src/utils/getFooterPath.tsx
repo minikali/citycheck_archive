@@ -1,15 +1,13 @@
-import slugify from 'slugify';
-
 const getPathFromApi = async (route, lang) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/${route}?_limit=-1&lang=${lang}`
   );
   const json = await response.json();
 
-  return json.map(({ id, title }) => ({
+  return json.map(({ id, title, slug }) => ({
     params: {
       title,
-      slug: slugify(title, { lower: true, strict: true }),
+      slug,
       route,
       lang,
       id,
@@ -35,24 +33,6 @@ const getFooterPaths = async (): Promise<PathParam[]> => {
       ...(await getPathFromApi('apropos', 'en')),
       ...(await getPathFromApi('informationslegales', 'en')),
     ];
-    // return {
-    //   fr: {
-    //     about: {
-    //       paths: await getPathFromApi('apropos', 'fr'),
-    //     },
-    //     information: {
-    //       paths: await getPathFromApi('informationslegales', 'fr'),
-    //     },
-    //   },
-    //   en: {
-    //     about: {
-    //       paths: await getPathFromApi('apropos', 'en'),
-    //     },
-    //     information: {
-    //       paths: await getPathFromApi('informationslegales', 'en'),
-    //     },
-    //   },
-    // };
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error);

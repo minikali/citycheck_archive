@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useMap, useMapEvents } from 'react-leaflet';
-import { SuperclusterContext } from '@/context/SuperclusterContext';
-import { GeojsonFeature, Project } from '@/types';
+import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useMap, useMapEvents } from "react-leaflet";
+import { SuperclusterContext } from "@/context/SuperclusterContext";
+import { GeojsonFeature, Project } from "@/types";
 
 const useMarkers = () => {
   const { i18n } = useTranslation();
@@ -13,7 +13,7 @@ const useMarkers = () => {
   const getProjectsGeojson = async () => {
     try {
       const endpoint = `/${
-        i18n.language === 'en' ? 'english-projects' : 'french-projects'
+        i18n.language === "en" ? "english-projects" : "french-projects"
       }`;
       const url = `${process.env.NEXT_PUBLIC_API_URL}${endpoint}?valid=true&_limit=-1`;
       const response = await fetch(url);
@@ -21,14 +21,14 @@ const useMarkers = () => {
       const json = await response.json();
       // Transform data into GeoJSON Feature for supercluster
       const geojson: GeojsonFeature[] = json.map((element: Project) => ({
-        type: 'Feature',
+        type: "Feature",
         properties: {
           ...element,
           cluster: false,
-          category: 'pin',
+          category: "pin",
         },
         geometry: {
-          type: 'Point',
+          type: "Point",
           coordinates: [element.lng, element.lat],
         },
       }));
@@ -67,11 +67,12 @@ const useMarkers = () => {
   };
 
   useEffect(() => {
+    setPoints([]);
     (async () => {
       await getProjectsGeojson();
       updateCluster();
     })();
-  }, []);
+  }, [i18n.language]);
 
   useMapEvents({
     moveend: updateCluster,

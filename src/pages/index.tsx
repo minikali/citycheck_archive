@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
-import { useTranslation } from 'react-i18next';
-import SuperclusterContextProvider from '@/context/SuperclusterContext';
-import Layout from '../components/Layout';
-import '../styles/style.scss';
+import React, { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { useTranslation } from "react-i18next";
+import SuperclusterContextProvider from "@/context/SuperclusterContext";
+import Layout from "../components/Layout";
+import "../styles/style.scss";
 
 interface Props {
   meta: {
@@ -14,7 +14,7 @@ interface Props {
 
 const Home = ({ meta }: Props) => {
   const [map, setMap] = useState(null);
-  const [addr, setAddr] = useState();
+  const [addr, setAddr] = useState(null);
   const mapRef = useRef(null);
   const { t } = useTranslation();
 
@@ -31,36 +31,45 @@ const Home = ({ meta }: Props) => {
 
   const MapWithoutSSR = React.useMemo(
     () =>
-      dynamic(() => import('@components/Map'), {
+      dynamic(() => import("@components/Map"), {
         ssr: false, // This line is important. It's what prevents server-side render
       }),
     []
   );
   const SearchBoxWithoutSSR = React.useMemo(
     () =>
-      dynamic(() => import('@components/SearchBox'), {
+      dynamic(() => import("@components/SearchBox"), {
         ssr: false, // This line is important. It's what prevents server-side render
       }),
     []
   );
   const MarkersWithoutSSR = React.useMemo(
     () =>
-      dynamic(() => import('@components/Markers'), {
+      dynamic(() => import("@components/Markers"), {
         ssr: false, // This line is important. It's what prevents server-side render
       }),
     []
   );
+  const PolygonWithoutSSR = React.useMemo(
+    () =>
+      dynamic(() => import("@components/Polygon"), {
+        ssr: false, // This line is important. It's what prevents server-side render
+      }),
+    []
+  );
+
   return (
     <Layout meta={meta}>
       <SuperclusterContextProvider>
-        <div ref={mapRef} className='home'>
+        <div ref={mapRef} className="home">
           <SearchBoxWithoutSSR
             addr={addr}
             setAddr={handleAddr}
             onFocus={handleSearchboxFocus}
-            placeholder={t('enter_address')}
+            placeholder={t("enter_address")}
           />
           <MapWithoutSSR setMap={setMap}>
+            <PolygonWithoutSSR positions={addr?.geometry?.coordinates} />
             <MarkersWithoutSSR map={map} />
           </MapWithoutSSR>
         </div>

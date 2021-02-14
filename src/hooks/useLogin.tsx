@@ -54,7 +54,6 @@ const useLogin = (dispatch) => {
 
       if (!response.ok) {
         const errorMsg = `${json.error}: ${json.message[0].messages[0].message}`;
-        console.log(json.message[0].messages[0].id);
 
         switch (json.message[0].messages[0].id) {
           case 'Auth.form.error.email.taken':

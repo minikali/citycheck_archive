@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { GeojsonProperty } from "@/types";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { useTranslation } from "react-i18next";
@@ -39,10 +39,11 @@ const CardPopup = ({ properties }: Props) => {
   const [showSuggest, setShowSuggest] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const update = new Date(updated_at).toLocaleDateString();
+
   const { idFr, idEn } = (() =>
     i18n.language === "fr"
-      ? { idFr: id, idEn: english_project.id }
-      : { idEn: id, idFr: french_project.id })();
+      ? { idFr: id, idEn: english_project?.id }
+      : { idEn: id, idFr: french_project?.id })();
 
   const isConfirmed = () => {
     if (!userinfo) return false;
@@ -89,12 +90,8 @@ const CardPopup = ({ properties }: Props) => {
   return (
     <Popup
       offset={[0, -15]}
-      onOpen={() => console.log("open")}
-      onClose={() => console.log("close")}
-      autoClose={false}
-      keepInView={true}
       autoPan={true}
-      closeOnClick={false}
+      autoPanPadding={[0, 70]}
     >
       <Card className="card-popup">
         <Card.Header>

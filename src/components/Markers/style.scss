@@ -19,6 +19,8 @@
 
 .marker {
   background-size: 100% 100%;
+  pointer-events: auto !important;
+
   &__phase-1 {
     background-image: url('/assets/images/green-pin.png');
   }
