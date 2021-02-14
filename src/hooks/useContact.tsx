@@ -1,5 +1,5 @@
-import { ContactForm } from '@/pages/contact';
-import { useState } from 'react';
+import { ContactForm } from "@/pages/contact";
+import { useState } from "react";
 
 const useContact = () => {
   const [loading, setLoading] = useState(false);
@@ -14,9 +14,9 @@ const useContact = () => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/messages`,
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name,
@@ -38,14 +38,14 @@ const useContact = () => {
     const formData = new FormData();
 
     Object.values(files).forEach((file) => {
-      formData.append('files', file);
+      formData.append("files", file);
     });
-    formData.append('ref', 'message');
-    formData.append('refId', refId);
-    formData.append('field', 'files');
+    formData.append("ref", "message");
+    formData.append("refId", refId);
+    formData.append("field", "files");
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/upload`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
     const json = await response.json();
@@ -68,11 +68,12 @@ const useContact = () => {
       const hasFile = files?.length > 0;
       const resForm = await sendForm(name, email, message, hasFile);
       if (hasFile) await sendFiles(resForm.id, files);
+
       setLoading(false);
       return true;
     } catch (err) {
-      setError(err);
       setLoading(false);
+      setError(err);
       return false;
     }
   };

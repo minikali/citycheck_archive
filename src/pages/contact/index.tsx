@@ -1,14 +1,14 @@
-import FeedbackModal from '@/components/FeedbackModal';
-import Layout from '@/components/Layout';
-import Upload from '@/components/Upload';
-import useContact from '@/hooks/useContact';
-import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Spinner from 'react-bootstrap/Spinner';
-import Form from 'react-bootstrap/Form';
-import { useTranslation } from 'react-i18next';
-import './style.scss';
+import FeedbackModal from "@/components/FeedbackModal";
+import Layout from "@/components/Layout";
+import Upload from "@/components/Upload";
+import useContact from "@/hooks/useContact";
+import React, { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
+import Form from "react-bootstrap/Form";
+import { useTranslation } from "react-i18next";
+import "./style.scss";
 
 export interface ContactForm {
   name: string;
@@ -26,14 +26,14 @@ interface Props {
 
 const Contact = ({ meta }: Props) => {
   const initialForm = {
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
     files: [],
   };
   const [form, setForm] = useState<ContactForm>(initialForm);
-  const [show, setShow] = useState<boolean>(false);
   const { loading, error, sendContactForm } = useContact();
+  const [modal, setModal] = useState({ show: false, message: "" });
   const { t } = useTranslation();
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,45 +52,55 @@ const Contact = ({ meta }: Props) => {
     setForm({ ...form, files });
   };
 
-  const handleSubmit = () => {
-    if (sendContactForm(form)) setForm(initialForm);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (sendContactForm(form)) {
+      setModal({ show: true, message: t("contact_message_success") });
+      setForm(initialForm);
+    }
   };
 
   useEffect(() => {
-    if (error) setShow(true);
+    if (error) {
+      setModal({ show: true, message: t("error_occurred") });
+    }
   }, [error]);
 
   return (
     <Layout meta={meta}>
-      <Container className='contact'>
-        <Form className='contact__form' onSubmit={handleSubmit}>
-          <Form.Group controlId='contact-name'>
-            <Form.Label>{t('contact_label_name')}</Form.Label>
-            <Form.Control type='text' onChange={onChangeName} required />
+      <Container className="contact">
+        <Form className="contact__form" onSubmit={handleSubmit}>
+          <Form.Group controlId="contact-name">
+            <Form.Label>{t("contact_label_name")}</Form.Label>
+            <Form.Control type="text" value={form.name} onChange={onChangeName} required />
           </Form.Group>
 
-          <Form.Group controlId='contact-email'>
-            <Form.Label>{t('contact_label_email')}</Form.Label>
-            <Form.Control type='email' onChange={onChangeEmail} required />
+          <Form.Group controlId="contact-email">
+            <Form.Label>{t("contact_label_email")}</Form.Label>
+            <Form.Control type="email" value={form.email} onChange={onChangeEmail} required />
           </Form.Group>
 
-          <Form.Group controlId='contact-message'>
-            <Form.Label>{t('contact_label_message')}</Form.Label>
+          <Form.Group controlId="contact-message">
+            <Form.Label>{t("contact_label_message")}</Form.Label>
             <Form.Control
-              as='textarea'
+              as="textarea"
               rows={3}
+              value={form.message}
               onChange={onChangeMessage}
               required
             />
           </Form.Group>
-          <Upload domId='upload' setFiles={onChangeFiles} files={form.files} />
-          <Button type='submit'>
-            {loading && <Spinner animation='border' role='status' />}
-            {!loading && 'Confirmer'}
+          <Upload domId="upload" setFiles={onChangeFiles} files={form.files} />
+          <Button type="submit">
+            {loading && <Spinner animation="border" role="status" />}
+            {!loading && "Confirmer"}
           </Button>
         </Form>
-        <FeedbackModal show={show} onHide={() => setShow(false)}>
-          {error}
+        <FeedbackModal
+          show={modal.show}
+          onHide={() => setModal({ show: false, message: "" })}
+        >
+          {modal.message}
         </FeedbackModal>
       </Container>
     </Layout>
