@@ -1,5 +1,5 @@
-import React, { createContext } from 'react';
-import Supercluster from 'supercluster';
+import React, { createContext, useState } from "react";
+import Supercluster from "supercluster";
 
 interface SuperclusterContextProps {
   supercluster?: Supercluster;
@@ -12,12 +12,14 @@ interface Props {
 }
 
 const SuperclusterContextProvider = ({ children }: Props) => {
-  const supercluster = new Supercluster({
-    radius: 20,
-    maxZoom: 18,
-    extent: 256,
-    minPoints: 3,
-  });
+  const [supercluster] = useState(
+    new Supercluster({
+      radius: 20,
+      maxZoom: 18,
+      extent: 256,
+      minPoints: 3,
+    })
+  );
 
   return (
     <SuperclusterContext.Provider value={{ supercluster }}>

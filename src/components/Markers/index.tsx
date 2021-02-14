@@ -49,7 +49,7 @@ const Markers = ({ map }: Props) => {
             riseOnHover
             icon={
               new DivIcon(
-                map?.getZoom() > 13
+                map?.getZoom() > 14
                   ? {
                       html: `<div>${properties.title}</div><span class="tip"></span>`,
                       className: `marker-label marker-label__phase-${properties.phase}`,
