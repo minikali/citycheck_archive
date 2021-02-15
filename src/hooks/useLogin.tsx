@@ -51,7 +51,6 @@ const useLogin = (dispatch) => {
         }
       );
       const json = await response.json();
-
       if (!response.ok) {
         const errorMsg = `${json.error}: ${json.message[0].messages[0].message}`;
 

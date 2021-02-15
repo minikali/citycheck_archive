@@ -9,10 +9,10 @@ declare global {
 
 const useFacebook = (register, login, logout) => {
   const logToStrapiWithFacebook = async (name, id) => {
-    const isLoggedIn = await login({ username: id, password: id });
+    const isLoggedIn = await login({ username: name, password: id });
     if (!isLoggedIn) {
-      // Fake email and password to create strapi user account
-      register(id, id, name, `${id}@citycheck.fr`, 'facebook', id);
+      // Fake email and password to create strapi user account      
+      register(name, id, id, name, `${id}@citycheck.fr`, 'facebook', id);
     }
   };
 
@@ -21,6 +21,7 @@ const useFacebook = (register, login, logout) => {
       if (response.status === 'connected') {
         // Retrieve name and userId from facebook API
         window.FB.api('/me', async ({ name, id }) => {
+          console.log(name, id)
           logToStrapiWithFacebook(name, id);
         });
       }
@@ -28,8 +29,9 @@ const useFacebook = (register, login, logout) => {
   };
 
   const facebookLogout = () => {
+    logout();
     window.FB.logout(() => {
-      logout();
+      console.log('logging out')
     });
   };
 
@@ -43,7 +45,6 @@ const useFacebook = (register, login, logout) => {
       });
       window.FB.getLoginStatus((response) => {
         // Called after the JS SDK has been initialized.
-        
         if (response.status === 'connected') {
           // Retrieve name and userId from facebook API
           window.FB.api('/me', async ({ name, id }) => {

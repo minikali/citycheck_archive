@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import LoginForm from '@/components/LoginForm';
-import './style.scss';
-import RegisterForm from '@/components/RegisterForm';
-import ForgotPasswordForm from '@/components/ForgotPasswordForm';
-import { AUTHENTICATED } from '@/actionType/actionTypes';
-import { AuthContext } from '@/context/AuthContext';
-import { useTranslation } from 'react-i18next';
-import Logout from '../Logout';
+import React, { useContext, useEffect, useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+import LoginForm from "@/components/LoginForm";
+import "./style.scss";
+import RegisterForm from "@/components/RegisterForm";
+import ForgotPasswordForm from "@/components/ForgotPasswordForm";
+import { AUTHENTICATED } from "@/actionType/actionTypes";
+import { AuthContext } from "@/context/AuthContext";
+import { useTranslation } from "react-i18next";
+import Logout from "../Logout";
 
 // eslint-disable-next-line arrow-body-style
 const AuthDropdown = () => {
@@ -27,20 +27,24 @@ const AuthDropdown = () => {
     logout: <Logout />,
   };
   useEffect(() => {
-    if (userStatus === AUTHENTICATED) setDropdown('logout');
-  }, []);
+    if (userStatus === AUTHENTICATED) setDropdown("logout");
+  }, [userStatus]);
+
+  useEffect(() => {
+    console.log(userStatus, userinfo);
+  }, [userStatus, userinfo]);
 
   return (
     <Dropdown
-      className='auth-dropdown'
+      className="auth-dropdown"
       alignRight
       onToggle={(value) => setToggle(value)}
       show={toggle}
     >
-      <Dropdown.Toggle variant='link'>
+      <Dropdown.Toggle variant="link">
         {userStatus === AUTHENTICATED && (
-          <span className='username'>
-            {t('welcome')}
+          <span className="username">
+            {t("welcome")}
             <br />
             {userinfo.user.name}
           </span>
@@ -48,8 +52,8 @@ const AuthDropdown = () => {
         <img
           width={30}
           height={30}
-          src='assets/images/login-icon.png'
-          alt='Login'
+          src="assets/images/login-icon.png"
+          alt="Login"
         />
       </Dropdown.Toggle>
 

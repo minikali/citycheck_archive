@@ -13,11 +13,11 @@ const useGoogle = (register, login, logout) => {
     const isLoggedIn = await login({ username: id, password: id });
     if (!isLoggedIn) {
       // Fake email and password to create strapi user account
-      await register(id, id, name, `${id}@citycheck.fr`, 'google', id);
+      await register(name, id, id, name, `${id}@citycheck.fr`, 'google', id);
     }
   };
 
-  const googleLogin = () => {
+  const googleLogin = () => {    
     auth2.signIn().then((response) => {
       const username = response.getBasicProfile().getName();
       const socialId = response.getBasicProfile().getId();
