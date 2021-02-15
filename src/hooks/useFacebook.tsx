@@ -12,7 +12,7 @@ const useFacebook = (register, login, logout) => {
     const isLoggedIn = await login({ username: name, password: id });
     if (!isLoggedIn) {
       // Fake email and password to create strapi user account      
-      register(name, id, id, name, `${id}@citycheck.fr`, 'facebook', id);
+      register(id, id, id, name, `${id}@citycheck.fr`, 'facebook', id);
     }
   };
 
