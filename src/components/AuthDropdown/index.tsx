@@ -30,10 +30,6 @@ const AuthDropdown = () => {
     if (userStatus === AUTHENTICATED) setDropdown("logout");
   }, [userStatus]);
 
-  useEffect(() => {
-    console.log(userStatus, userinfo);
-  }, [userStatus, userinfo]);
-
   return (
     <Dropdown
       className="auth-dropdown"

@@ -16,7 +16,6 @@ const Logout = () => {
   const { t } = useTranslation();
 
   const handleLogout = () => {
-    console.log('userinfo', userinfo)
     if (userinfo.user.social === 'facebook') facebookLogout();
     else if (userinfo.user.social === 'google') googleLogout();
     else if (userinfo.user.social === 'email') logout();

@@ -21,7 +21,6 @@ const useFacebook = (register, login, logout) => {
       if (response.status === 'connected') {
         // Retrieve name and userId from facebook API
         window.FB.api('/me', async ({ name, id }) => {
-          console.log(name, id)
           logToStrapiWithFacebook(name, id);
         });
       }
@@ -31,7 +30,6 @@ const useFacebook = (register, login, logout) => {
   const facebookLogout = () => {
     logout();
     window.FB.logout(() => {
-      console.log('logging out')
     });
   };
 
