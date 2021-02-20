@@ -9,7 +9,7 @@ declare global {
 
 const useFacebook = (register, login, logout) => {
   const logToStrapiWithFacebook = async (name, id) => {
-    const isLoggedIn = await login({ username: name, password: id });
+    const isLoggedIn = await login({ username: id, password: id });
     if (!isLoggedIn) {
       // Fake email and password to create strapi user account      
       register(id, id, id, name, `${id}@citycheck.fr`, 'facebook', id);
