@@ -53,10 +53,10 @@ const useMarkers = () => {
     if (!supercluster.points) return;
     const newPoints = supercluster.getClusters(
       [
-        map.getBounds().getWest(),
-        map.getBounds().getSouth(),
-        map.getBounds().getEast(),
-        map.getBounds().getNorth(),
+        map.getBounds().getWest() - 5,
+        map.getBounds().getSouth() - 5,
+        map.getBounds().getEast() + 5,
+        map.getBounds().getNorth() + 5,
       ],
       map.getZoom()
     );
