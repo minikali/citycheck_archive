@@ -27,7 +27,10 @@ const HistorySuggest = ({ project_histories }: Props) => {
         name,
       }) => {
         const date = new Date(createdAt).toLocaleDateString('fr-FR');
-        const author = !user ? 'Admin' : name.split(' ')[0];
+
+        let author = t('unknown');
+        if (!user) author = 'Admin';
+        if (name) author = name.split(' ').pop();
 
         return (
           <li key={id}>
