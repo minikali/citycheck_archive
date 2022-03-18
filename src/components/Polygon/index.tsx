@@ -1,6 +1,6 @@
-import React from "react";
-import { LatLngExpression } from "leaflet";
-import { Polygon } from "react-leaflet";
+import React from 'react';
+import { LatLngExpression } from 'leaflet';
+import { Polygon } from 'react-leaflet';
 
 interface Props {
   positions:
@@ -10,8 +10,12 @@ interface Props {
     | LatLngExpression[][][];
 }
 
-export default ({ positions }: Props) => {
+const CustomPolygon = ({ positions }: Props) => {
   if (positions)
-    return <Polygon positions={positions} color="#191970" fill={true} fillOpacity={0.1}/>;
+    return (
+      <Polygon positions={positions} color='#191970' fill fillOpacity={0.1} />
+    );
   return <></>;
 };
+
+export default CustomPolygon;
