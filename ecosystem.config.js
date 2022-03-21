@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'citycheck',
       script: 'npm',
-      args: 'start -- -p 3000',
+      args: 'start -p 3000',
       env_production: {
         NODE_ENV: 'production',
       },
